@@ -19,29 +19,27 @@
       flex: 1;
     }
 
-    /* ===== HEADER ===== */
-.header-bar {
-  padding: 12px;
-  border-bottom: 2px solid #0072bc;
-  background-color: #f7f7f7; /* lighter gray */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+    .header-bar {
+      padding: 12px;
+      border-bottom: 2px solid #0072bc;
+      background-color: #f7f7f7;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
+    .header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
 
+    .header-left h1 {
+      margin: 0;
+      font-size: 2em;
+      color: #0072bc;
+    }
 
-.header-left {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-}
-
-.header-left h1 {
-  margin: 0;
-  font-size: 2em;
-  color: #0072bc;
-}
     .logo {
       height: 120px;
       width: auto;
@@ -53,7 +51,6 @@
       color: #555;
     }
 
-    /* ===== STATE BUTTONS ===== */
     .states-container {
       display: flex;
       flex-wrap: wrap;
@@ -84,31 +81,21 @@
       background-color: #005a8a;
     }
 
-.states-section {
-  max-width: 900px;
-  margin: 40px auto;
-  padding-left: 0; /* aligns with buttons */
-}
+    .states-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding-left: 0;
+    }
 
-.overview {
-  font-size: 1.1em;
-  line-height: 1.5;
-  color: #555;
-  margin-bottom: 20px;
-  text-align: left;
-  padding-left: 0;
-}
+    .overview {
+      font-size: 1.1em;
+      line-height: 1.5;
+      color: #555;
+      margin-bottom: 20px;
+      text-align: left;
+      padding-left: 0;
+    }
 
-@media (max-width: 768px) {
-  .overview {
-    padding-left: 10px;  /* match the mobile state button padding */
-    padding-right: 10px;
-  }
-}
-
-
-
-    
     .state-button.no-pdf {
       background-color: #90bfe0;
       cursor: not-allowed;
@@ -116,19 +103,6 @@
       opacity: 0.9;
     }
 
-    @media (max-width: 768px) {
-      .state-button {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
-
-      .states-container {
-        gap: 10px;
-        padding: 0 10px;
-      }
-    }
-
-    /* ===== FOOTER ===== */
     footer {
       background-color: #0468B1;
       color: white;
@@ -141,8 +115,6 @@
       justify-content: flex-start;
       align-items: center;
       width: 100%;
-      margin: 0;
-      padding-left: 0;
     }
 
     .footer-left {
@@ -154,24 +126,6 @@
 
     .footer-left img {
       height: 130px;
-      margin-left: 0;
-      margin-right: 10px;
-    }
-
-    .footer-links {
-      text-align: right;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .footer-icons img {
-      height: 24px;
-      margin-right: 10px;
     }
 
     .footer-bottom {
@@ -181,11 +135,27 @@
       border-top: 1px solid white;
       padding-top: 15px;
     }
+
+    @media (max-width: 768px) {
+      .state-button {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .states-container {
+        gap: 10px;
+        padding: 0 10px;
+      }
+
+      .overview {
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
- <header class="header-bar">
+<header class="header-bar">
   <div class="header-left">
     <img src="undp_logo.png" alt="UNDP Logo" class="logo" />
     <div>
@@ -195,101 +165,123 @@
   </div>
 </header>
 
+<main>
+  <div class="states-section">
+    <p class="overview">Click on any state for a detailed overview</p>
 
-  <main>
-<div class="states-section">
-  <p class="overview">Click on any state for a detailed overview</p>
-  <div class="states-container">
-
-
-      <!-- Example state buttons -->
-      <a href="#" class="state-button" data-state="abia">Abia</a>
-      <a href="#" class="state-button" data-state="adamawa">Adamawa</a>
-      <a href="#" class="state-button" data-state="akwaibom">Akwa Ibom</a>
-      <a href="#" class="state-button" data-state="anambra">Anambra</a>
-      <a href="#" class="state-button" data-state="bauchi">Bauchi</a>
-      <a href="#" class="state-button" data-state="bayelsa">Bayelsa</a>
-      <a href="#" class="state-button" data-state="benue">Benue</a>
-      <a href="#" class="state-button" data-state="borno">Borno</a>
-      <a href="#" class="state-button" data-state="crossriver">Cross River</a>
-      <a href="#" class="state-button" data-state="delta">Delta</a>
-      <a href="#" class="state-button" data-state="ebonyi">Ebonyi</a>
-      <a href="#" class="state-button" data-state="edo">Edo</a>
-      <a href="#" class="state-button" data-state="ekiti">Ekiti</a>
-      <a href="#" class="state-button" data-state="enugu">Enugu</a>
-      <a href="#" class="state-button" data-state="FCT">FCT</a>
-      <a href="#" class="state-button" data-state="gombe">Gombe</a>
-      <a href="#" class="state-button" data-state="imo">Imo</a>
-      <a href="#" class="state-button" data-state="jigawa">Jigawa</a>
-      <a href="#" class="state-button" data-state="kaduna">Kaduna</a>
-      <a href="#" class="state-button" data-state="kano">Kano</a>
-      <a href="#" class="state-button" data-state="katsina">Katsina</a>
-      <a href="#" class="state-button" data-state="kebbi">Kebbi</a>
-      <a href="#" class="state-button" data-state="kogi">Kogi</a>
-      <a href="#" class="state-button" data-state="kwara">Kwara</a>
-      <a href="#" class="state-button" data-state="lagos">Lagos</a>
-      <a href="#" class="state-button" data-state="nasarawa">Nasarawa</a>
-      <a href="#" class="state-button" data-state="niger">Niger</a>
-      <a href="#" class="state-button" data-state="ogun">Ogun</a>
-      <a href="#" class="state-button" data-state="ondo">Ondo</a>
-      <a href="#" class="state-button" data-state="osun">Osun</a>
-      <a href="#" class="state-button" data-state="oyo">Oyo</a>
-      <a href="#" class="state-button" data-state="plateau">Plateau</a>
-      <a href="#" class="state-button" data-state="rivers">Rivers</a>
-      <a href="#" class="state-button" data-state="sokoto">Sokoto</a>
-      <a href="#" class="state-button" data-state="taraba">Taraba</a>
-      <a href="#" class="state-button" data-state="yobe">Yobe</a>
-      <a href="#" class="state-button" data-state="zamfara">Zamfara</a>
+    <!-- Dropdown Filter -->
+    <div style="margin: 0 auto 20px auto; max-width: 900px; padding-left: 10px; padding-right: 10px;">
+      <label for="zoneFilter" style="font-size: 1em; margin-right: 10px;">Filter by Geopolitical Zone:</label>
+      <select id="zoneFilter" style="padding: 8px; font-size: 1em;">
+        <option value="all">All Zones</option>
+        <option value="south-east">South East</option>
+        <option value="south-south">South South</option>
+        <option value="south-west">South West</option>
+        <option value="north-central">North Central</option>
+        <option value="north-east">North East</option>
+        <option value="north-west">North West</option>
+      </select>
     </div>
-    </div> <!-- end states-container -->
-</div> <!-- end states-section -->
 
-  </main>
+    <div class="states-container">
+      <a href="#" class="state-button" data-state="abia" data-zone="south-east">Abia</a>
+      <a href="#" class="state-button" data-state="adamawa" data-zone="north-east">Adamawa</a>
+      <a href="#" class="state-button" data-state="akwaibom" data-zone="south-south">Akwa Ibom</a>
+      <a href="#" class="state-button" data-state="anambra" data-zone="south-east">Anambra</a>
+      <a href="#" class="state-button" data-state="bauchi" data-zone="north-east">Bauchi</a>
+      <a href="#" class="state-button" data-state="bayelsa" data-zone="south-south">Bayelsa</a>
+      <a href="#" class="state-button" data-state="benue" data-zone="north-central">Benue</a>
+      <a href="#" class="state-button" data-state="borno" data-zone="north-east">Borno</a>
+      <a href="#" class="state-button" data-state="crossriver" data-zone="south-south">Cross River</a>
+      <a href="#" class="state-button" data-state="delta" data-zone="south-south">Delta</a>
+      <a href="#" class="state-button" data-state="ebonyi" data-zone="south-east">Ebonyi</a>
+      <a href="#" class="state-button" data-state="edo" data-zone="south-south">Edo</a>
+      <a href="#" class="state-button" data-state="ekiti" data-zone="south-west">Ekiti</a>
+      <a href="#" class="state-button" data-state="enugu" data-zone="south-east">Enugu</a>
+      <a href="#" class="state-button" data-state="FCT" data-zone="north-central">FCT</a>
+      <a href="#" class="state-button" data-state="gombe" data-zone="north-east">Gombe</a>
+      <a href="#" class="state-button" data-state="imo" data-zone="south-east">Imo</a>
+      <a href="#" class="state-button" data-state="jigawa" data-zone="north-west">Jigawa</a>
+      <a href="#" class="state-button" data-state="kaduna" data-zone="north-west">Kaduna</a>
+      <a href="#" class="state-button" data-state="kano" data-zone="north-west">Kano</a>
+      <a href="#" class="state-button" data-state="katsina" data-zone="north-west">Katsina</a>
+      <a href="#" class="state-button" data-state="kebbi" data-zone="north-west">Kebbi</a>
+      <a href="#" class="state-button" data-state="kogi" data-zone="north-central">Kogi</a>
+      <a href="#" class="state-button" data-state="kwara" data-zone="north-central">Kwara</a>
+      <a href="#" class="state-button" data-state="lagos" data-zone="south-west">Lagos</a>
+      <a href="#" class="state-button" data-state="nasarawa" data-zone="north-central">Nasarawa</a>
+      <a href="#" class="state-button" data-state="niger" data-zone="north-central">Niger</a>
+      <a href="#" class="state-button" data-state="ogun" data-zone="south-west">Ogun</a>
+      <a href="#" class="state-button" data-state="ondo" data-zone="south-west">Ondo</a>
+      <a href="#" class="state-button" data-state="osun" data-zone="south-west">Osun</a>
+      <a href="#" class="state-button" data-state="oyo" data-zone="south-west">Oyo</a>
+      <a href="#" class="state-button" data-state="plateau" data-zone="north-central">Plateau</a>
+      <a href="#" class="state-button" data-state="rivers" data-zone="south-south">Rivers</a>
+      <a href="#" class="state-button" data-state="sokoto" data-zone="north-west">Sokoto</a>
+      <a href="#" class="state-button" data-state="taraba" data-zone="north-east">Taraba</a>
+      <a href="#" class="state-button" data-state="yobe" data-zone="north-east">Yobe</a>
+      <a href="#" class="state-button" data-state="zamfara" data-zone="north-west">Zamfara</a>
+    </div>
+  </div>
+</main>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <a href="https://www.undp.org">
-          <img src="UNDP_logo_White.png" alt="UNDP Logo" />
-        </a>
-        <div>
-          <div>United Nations</div>
-          <div>Development Programme</div>
-        </div>
+<footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <a href="https://www.undp.org">
+        <img src="UNDP_logo_White.png" alt="UNDP Logo" />
+      </a>
+      <div>
+        <div>United Nations</div>
+        <div>Development Programme</div>
       </div>
     </div>
-    <div class="footer-bottom">
-      © 2025 United Nations Development Programme Nigeria Knowledge Hub
-    </div>
-  </footer>
+  </div>
+  <div class="footer-bottom">
+    © 2025 United Nations Development Programme Nigeria Knowledge Hub
+  </div>
+</footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const buttons = document.querySelectorAll(".state-button");
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".state-button");
 
-      buttons.forEach(button => {
-        const state = button.getAttribute("data-state");
-        const pdfUrl = `${state}.pdf`;
+    // PDF availability check
+    buttons.forEach(button => {
+      const state = button.getAttribute("data-state");
+      const pdfUrl = `${state}.pdf`;
 
-        fetch(pdfUrl, { method: 'HEAD' })
-          .then(response => {
-            if (response.ok) {
-              button.href = `viewer.html?state=${state}`;
-            } else {
-              markUnavailable(button);
-            }
-          })
-          .catch(() => {
+      fetch(pdfUrl, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            button.href = `viewer.html?state=${state}`;
+          } else {
             markUnavailable(button);
-          });
-      });
-
-      function markUnavailable(button) {
-        button.classList.add("no-pdf");
-        button.title = "Coming Soon";
-      }
+          }
+        })
+        .catch(() => {
+          markUnavailable(button);
+        });
     });
-  </script>
+
+    function markUnavailable(button) {
+      button.classList.add("no-pdf");
+      button.title = "Coming Soon";
+    }
+
+    // Filter by zone
+    document.getElementById("zoneFilter").addEventListener("change", function () {
+      const selectedZone = this.value;
+      buttons.forEach(button => {
+        if (selectedZone === "all" || button.dataset.zone === selectedZone) {
+          button.style.display = "inline-block";
+        } else {
+          button.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
