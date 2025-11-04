@@ -49,13 +49,14 @@
     .subtext { margin-top: 10px; font-size: 1.1em; color: #555; }
 
     /* Main content width: keep readable and avoids over-large cards */
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 1200px;        /* keeps cards a nice size on large screens */
-      margin: 0 auto;           /* center */
-      padding: 12px;            /* slight breathing room on the sides */
-    }
+main {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0 12px;
+}
+
+
 
     .filters {
       display: flex;
@@ -74,20 +75,19 @@
     }
 
     /* Grid: 1/2/3/4 columns responsive; fixed 4 columns on desktop */
-    #stateGrid {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-    @media (min-width: 560px) {
-      #stateGrid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width: 768px) {
-      #stateGrid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (min-width: 1024px) {
-      #stateGrid { grid-template-columns: repeat(4, 1fr); } /* desktop: 4 across */
-    }
+#stateGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  margin: 0;
+}
+@media (max-width: 900px) {
+  #stateGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+@media (max-width: 640px) {
+  #stateGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
 
     .card {
       position: relative;
