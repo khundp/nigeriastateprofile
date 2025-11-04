@@ -26,7 +26,6 @@
       flex-direction: column;
     }
 
-    /* Header (like original) */
     header {
       padding: 12px 16px;
       border-bottom: 2px solid var(--brand);
@@ -55,7 +54,6 @@
       color: #555;
     }
 
-    /* Main */
     main {
       flex: 1;
       max-width: 1100px;
@@ -78,99 +76,61 @@
       font-size: 1em;
     }
 
-    /* Grid */
-    .grid {
+    #stateGrid {
       display: grid;
-      width: 100%;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    @media (max-width: 640px){
-      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-    }
-    @media (min-width: 1024px){
-      .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-    }
-    /* Flex fallback for older browsers */
-    @supports not (display: grid) {
-      .grid { display: flex; flex-wrap: wrap; gap: 18px; }
-      .grid .card {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      background: #ddd;
-      aspect-ratio: 4 / 3; /* responsive shape */
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    @supports not (aspect-ratio: 4 / 3) {
-      .card { height: 180px; }
-    }
-      @media (min-width: 768px){ .grid .card { width: calc(33.333% - 12px); } }
-      @media (min-width: 1100px){ .grid .card { width: calc(25% - 13.5px); } }
+      gap: 24px; /* more breathing room so cards don't touch */
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     }
 
     .card {
       position: relative;
       border-radius: var(--radius);
-      overflow: hidden;
+      overflow: hidden; /* clip zooming image */
       cursor: pointer;
-      background: #ddd;
-      aspect-ratio: 4 / 3; /* responsive, keeps cards side-by-side */
-      min-height: 150px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #eee;
+      aspect-ratio: 3 / 2;
+      transition: box-shadow 0.25s ease;
+      isolation: isolate; /* prevent hover bleed between cards */
     }
+    .card:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
+    .card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; transform: translateZ(0); }
+    .card:hover img { transform: scale(1.06); }
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     .card img {
-      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
       transition: transform 0.4s ease;
-      -webkit-user-drag: none; /* ensure consistent rendering */
     }
     .card:hover img {
       transform: scale(1.1);
     }
 
     .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 12px; gap: 8px; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55));
+      opacity: 0; transition: opacity 0.25s ease;
+      color: #fff;
     }
+    .card:hover .overlay { opacity: 1; }
+    .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
+    .overlay a:hover { background: var(--brand-dark); }
     .card:hover .overlay {opacity: 1;}
 
-    .overlay h3 {
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    .overlay p {
-      margin: 2px 0 8px;
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-    .overlay a {
-      background: var(--brand);
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      display: inline-block;
-      transition: background 0.2s ease;
-    }
-    .overlay a:hover {background: var(--brand-dark);}
+    .titlebar { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 2; }
+    .titlebar .name { display: inline-block; background: rgba(0,0,0,0.55); color: #fff; padding: 6px 10px; border-radius: 10px; font-size: 0.95rem; backdrop-filter: blur(2px); }
+    .titlebar .zone { margin-left: 8px; font-size: 0.8rem; color: #e8f0f8; opacity: 0.9; }
+
+    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; gap: 8px; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55)); opacity: 0; transition: opacity 0.25s ease; color: #fff; }
+    .card:hover .overlay { opacity: 1; }
+    .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
+    .overlay a:hover { background: var(--brand-dark); }
 
     footer {
       background: var(--brand);
@@ -180,24 +140,6 @@
       margin-top: 40px;
     }
     footer img {height: 100px;}
-  @media (min-width: 768px) {
-    .grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-  }
-  /* --- Force multi‑column grid overrides --- */
-  #stateGrid { display: grid !important; gap: 18px !important; grid-auto-rows: 1fr; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; }
-  @media (max-width: 640px){ #stateGrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important; } }
-  @media (min-width: 1024px){ #stateGrid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important; } }
-  #stateGrid > .card { width: auto !important; }
-  .card { aspect-ratio: 4 / 3; }
-  * { min-width: 0; }
-  /* --- Hard column layout to fix vertical stacking --- */
-  #stateGrid { display: grid !important; gap: 18px !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  @media (min-width: 640px){ #stateGrid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
-  @media (min-width: 900px){ #stateGrid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
-  @media (min-width: 1280px){ #stateGrid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; } }
-  #stateGrid .card { grid-column: auto !important; width: auto !important; }
-  /* Slightly shorter cards so rows feel lighter on small screens */
-  .card { aspect-ratio: 3 / 2; }
   </style>
 </head>
 <body>
@@ -225,7 +167,7 @@
       </select>
     </div>
 
-    <div class="grid" id="stateGrid"></div>
+    <div id="stateGrid"></div>
   </main>
 
   <footer>
@@ -261,10 +203,12 @@
           const card = document.createElement('div');
           card.className = 'card';
           card.innerHTML = `
-            <img src="images/${slug}.jpg" alt="${name}">
+            <img src="images/${slug}.jpg" alt="${name}" loading="lazy">
+            <div class="titlebar">
+              <span class="name">${name}</span>
+              <span class="zone">${z.replace('-', ' ')}</span>
+            </div>
             <div class="overlay">
-              <h3>${name}</h3>
-              <p>${z.replace('-', ' ')}</p>
               <a href="viewer.html?state=${slug}">View Profile</a>
             </div>`;
           grid.appendChild(card);
