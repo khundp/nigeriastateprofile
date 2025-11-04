@@ -15,8 +15,8 @@
       --text: #333;
       --radius: 14px;
     }
-    * {box-sizing: border-box;}
-    html, body {height: 100%;}
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
@@ -26,6 +26,7 @@
       flex-direction: column;
     }
 
+    /* Header (like original) */
     header {
       padding: 12px 16px;
       border-bottom: 2px solid var(--brand);
@@ -44,21 +45,16 @@
       font-size: 2em;
       color: var(--brand);
     }
-    .logo {
-      height: 120px;
-      width: auto;
-    }
-    .subtext {
-      margin-top: 10px;
-      font-size: 1.1em;
-      color: #555;
-    }
+    .logo { height: 120px; width: auto; }
+    .subtext { margin-top: 10px; font-size: 1.1em; color: #555; }
 
+    /* Main content width: keep readable and avoids over-large cards */
     main {
       flex: 1;
       width: 100%;
-      margin: 0;
-      padding: 0;
+      max-width: 1200px;        /* keeps cards a nice size on large screens */
+      margin: 0 auto;           /* center */
+      padding: 12px;            /* slight breathing room on the sides */
     }
 
     .filters {
@@ -66,78 +62,85 @@
       justify-content: flex-start;
       align-items: center;
       gap: 10px;
-      margin: 16px 12px 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
     }
     .filters input, .filters select {
       padding: 10px 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1em;
+      background: #fff;
     }
 
+    /* Grid: 1/2/3/4 columns responsive; fixed 4 columns on desktop */
     #stateGrid {
       display: grid;
-      gap: 8px;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      margin: 0;
+      gap: 12px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
     }
-    @media (max-width: 900px){
-      #stateGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    @media (min-width: 560px) {
+      #stateGrid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 640px){
-      #stateGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    @media (min-width: 768px) {
+      #stateGrid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      #stateGrid { grid-template-columns: repeat(4, 1fr); } /* desktop: 4 across */
     }
 
     .card {
       position: relative;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: hidden;         /* clip zooming image */
       cursor: pointer;
       background: #eee;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 3;      /* consistent visual size; not too tall/wide */
       transition: box-shadow 0.25s ease, transform 0.25s ease;
       isolation: isolate;
     }
     .card:hover { box-shadow: 0 14px 28px rgba(0,0,0,0.18); transform: translateY(-2px); }
-    .card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; transform: translateZ(0); }
-    .card:hover img { transform: scale(1.06); }
-    .card:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
-    .card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; transform: translateZ(0); }
-    .card:hover img { transform: scale(1.06); }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
+
     .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.45s ease; transform: translateZ(0);
     }
-    .card:hover img {
-      transform: scale(1.1);
+    .card:hover img { transform: scale(1.06); }
+
+    /* Always-visible name at top-left */
+    .titlebar {
+      position: absolute; top: 10px; left: 12px; z-index: 2;
+    }
+    .titlebar .name {
+      display: inline-block;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
     }
 
-    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; gap: 10px; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.55)); opacity: 0; transition: opacity 0.25s ease; color: #fff; }
+    /* Hover overlay shows zone + description + button */
+    .overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 12px; gap: 10px; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55));
+      opacity: 0; transition: opacity 0.25s ease; color: #fff;
+    }
     .card:hover .overlay { opacity: 1; }
     .overlay .zone { font-size: 0.92rem; opacity: 0.95; }
     .overlay .desc { font-size: 0.9rem; opacity: 0.95; max-width: 90ch; }
-    .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
-    .overlay a:hover { background: var(--brand-dark); }
-    .card:hover .overlay { opacity: 1; }
-    .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
-    .overlay a:hover { background: var(--brand-dark); }
-    .card:hover .overlay {opacity: 1;}
-
-    .titlebar { position: absolute; top: 10px; left: 12px; z-index: 2; }
-    .titlebar .name { display: inline-block; background: rgba(0,0,0,0.55); color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-    .titlebar .name { display: inline-block; background: rgba(0,0,0,0.6); color: #fff; padding: 6px 10px; border-radius: 10px; font-size: 0.95rem; backdrop-filter: blur(2px); }
-
-    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; gap: 10px; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55)); opacity: 0; transition: opacity 0.25s ease; color: #fff; }
-    .card:hover .overlay { opacity: 1; }
-    .overlay .zone { font-size: 0.88rem; opacity: 0.95; }
-    .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
+    .overlay a {
+      pointer-events: auto;
+      align-self: flex-start;
+      background: var(--brand); color: #fff; text-decoration: none;
+      padding: 8px 12px; border-radius: 8px; font-size: 0.9rem;
+      transition: background 0.2s ease;
+    }
     .overlay a:hover { background: var(--brand-dark); }
 
     footer {
@@ -147,7 +150,7 @@
       padding: 40px 16px 30px;
       margin-top: 40px;
     }
-    footer img {height: 100px;}
+    footer img { height: 100px; }
   </style>
 </head>
 <body>
@@ -184,6 +187,7 @@
   </footer>
 
   <script>
+    // --- State data ---
     const states = [
       ["Abia","south-east"], ["Adamawa","north-east"], ["Akwa Ibom","south-south"], ["Anambra","south-east"],
       ["Bauchi","north-east"], ["Bayelsa","south-south"], ["Benue","north-central"], ["Borno","north-east"],
@@ -196,13 +200,56 @@
       ["Rivers","south-south"], ["Sokoto","north-west"], ["Taraba","north-east"], ["Yobe","north-east"], ["Zamfara","north-west"]
     ];
 
+    // --- Descriptions map (slug -> short text) ---
+    const DESC = {
+      abia: "Known for thriving commerce and small industries in Aba, a major manufacturing hub in southeastern Nigeria.",
+      adamawa: "Mountainous and agricultural, with Yola as a center for trade, learning, and cross-border commerce.",
+      akwaibom: "A leading oil-producing state with clean cities, growing tourism, and the Ibom Deep Seaport project.",
+      anambra: "Dynamic trade and education hub; Onitsha hosts one of West Africa’s largest markets.",
+      bauchi: "Home to Yankari Game Reserve; agriculture and light manufacturing are growing sectors.",
+      bayelsa: "Coastal Niger Delta state rich in oil and gas, investing in energy, skills, and education.",
+      benue: "Nigeria’s food basket with diverse crop production and a large farming population.",
+      borno: "Historically significant Sahel trade center working toward recovery and resilient livelihoods.",
+      crossriver: "Eco-tourism and biodiversity hotspot; Calabar is known for culture and festivals.",
+      delta: "Diverse, oil-rich economy with expanding agriculture and industry beyond petroleum.",
+      ebonyi: "Agriculture and salt deposits underpin a fast-growing state capital, Abakaliki.",
+      edo: "Renowned for cultural heritage and learning; Benin City anchors commerce and governance.",
+      ekiti: "Strong educational base and agriculture, set among scenic hills and landscapes.",
+      enugu: "Former coal-mining center turned regional hub for education, business, and services.",
+      fct: "Nigeria’s capital territory—planned city of Abuja, focused on governance, diplomacy, and urban development.",
+      gombe: "Peaceful, agriculturally vibrant state increasingly noted for governance reforms.",
+      imo: "Industrial and educational strengths centered around Owerri with an active private sector.",
+      jigawa: "Agriculture-led growth with reforms in education and rural infrastructure.",
+      kaduna: "Key northern center for industry, education, and public administration.",
+      kano: "Commercial heartbeat of northern Nigeria with deep cultural and trading roots.",
+      katsina: "Predominantly agricultural with expanding infrastructure and education investments.",
+      kebbi: "Leading rice producer; Argungu Fishing Festival highlights rich cultural heritage.",
+      kogi: "Centrally located, mineral-rich; Lokoja links major transport corridors.",
+      kwara: "Peaceful, diverse state bridging north and south with strong education assets.",
+      lagos: "Nigeria’s commercial engine—finance, technology, culture, and ports drive rapid growth.",
+      nasarawa: "Rich in solid minerals with rising agricultural investments near the FCT.",
+      niger: "Nigeria’s largest state by land area, known for hydroelectric power and agriculture.",
+      ogun: "Industrial powerhouse near Lagos attracting manufacturing and construction.",
+      ondo: "Major cocoa producer with growing oil and gas development.",
+      osun: "Cultural heartbeat with Yoruba heritage sites, including Osun-Osogbo Sacred Grove.",
+      oyo: "Ibadan anchors education, research, and media across southwestern Nigeria.",
+      plateau: "Temperate climate, tourism, and mining; Jos is a multicultural urban center.",
+      rivers: "Energy capital centered on Port Harcourt—oil, gas, and logistics hub.",
+      sokoto: "Historic seat of the Caliphate and a center of Islamic scholarship and trade.",
+      taraba: "Scenic, resource-rich state with tea, cocoa, and significant livestock.",
+      yobe: "A key livestock and crop producer with emerging renewable energy potential.",
+      zamfara: "Mineral-rich and agricultural with opportunities in solid minerals and trade."
+    };
+
+    function slugify(n){ return n.toLowerCase().replace(/\s+/g, ''); }
+    function getDesc(name, z){
+      const key = slugify(name);
+      return DESC[key] || `${name} — key indicators, economy & people. Zone: ${z.replace('-', ' ')}`;
+    }
+
     const grid = document.getElementById('stateGrid');
     const search = document.getElementById('search');
     const zone = document.getElementById('zone');
-
-    function getDesc(name, z){
-      return `${name} — key indicators, economy & people. Zone: ${z.replace('-', ' ')}`;
-    }
 
     function render() {
       const query = search.value.toLowerCase();
@@ -211,14 +258,12 @@
       states
         .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))
         .forEach(([name, z]) => {
-          const slug = name.toLowerCase().replace(/\s+/g, '');
+          const slug = slugify(name);
           const card = document.createElement('div');
           card.className = 'card';
           card.innerHTML = `
             <img src="images/${slug}.jpg" alt="${name}" loading="lazy">
-            <div class="titlebar">
-              <span class="name">${name}</span>
-            </div>
+            <div class="titlebar"><span class="name">${name}</span></div>
             <div class="overlay">
               <div class="zone">${z.replace('-', ' ')}</div>
               <div class="desc">${getDesc(name, z)}</div>
