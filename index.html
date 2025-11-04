@@ -113,34 +113,38 @@ main {
     .card:hover img { transform: scale(1.06); }
 
     /* Always-visible name at top-left */
-.titlebar {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* Title block */
+.titlebar{
+  position:absolute; top:10px; left:12px; z-index:3;
+  display:flex; flex-direction:column; align-items:flex-start; gap:0;
 }
 
-.titlebar .name {
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  backdrop-filter: blur(2px);
+/* State name (always visible) */
+.titlebar .name{
+  background:rgba(0,0,0,.6); color:#fff; padding:6px 10px;
+  border-radius:10px; font-size:.95rem; backdrop-filter:blur(2px);
 }
 
-.titlebar .zone {
-  background: rgba(0,0,0,0.45);
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  width: fit-content;
-  backdrop-filter: blur(2px);
+/* Zone: hidden by default (takes no space) */
+.titlebar .zone{
+  background:rgba(0,0,0,.45); color:#fff; border-radius:8px;
+  /* start hidden */
+  opacity:0; visibility:hidden; max-height:0; overflow:hidden;
+  padding:0 8px; margin-top:0; transform:translateY(-4px);
+  transition: opacity .2s ease, transform .2s ease,
+              max-height .2s ease, padding .2s ease, margin-top .2s ease,
+              visibility 0s linear .2s; /* delay visibility to match fade out */
 }
+
+/* Show zone only on hover */
+.card:hover .titlebar .zone{
+  opacity:1; visibility:visible; max-height:24px;
+  padding:4px 8px; margin-top:4px; transform:translateY(0);
+  transition: opacity .2s ease, transform .2s ease,
+              max-height .2s ease, padding .2s ease, margin-top .2s ease,
+              visibility 0s; /* visible immediately on hover */
+}
+
 
 
     /* Hover overlay shows zone + description + button */
