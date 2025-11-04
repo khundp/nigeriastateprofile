@@ -3,388 +3,231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nigeria State Profiles · Soft Concept</title>
+  <title>Nigeria State Profiles · UNDP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f6f8fb;
-      --surface: #ffffff;
-      --ink: #25324a;
-      --muted: #6b7a90;
-      --brand: #2e90fa;
-      --brand-2: #8ec5ff;
-      --accent: #6ed19a;
-      --ring: rgba(46,144,250,0.25);
-      --shadow: 0 10px 30px rgba(14, 21, 47, 0.08);
-      --radius: 18px;
+      --brand: #0072bc;
+      --brand-dark: #005a8a;
+      --bg: #f9f9f9;
+      --text: #333;
+      --radius: 14px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family: Outfit, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
-      color:var(--ink); background: linear-gradient(180deg,#f3f8ff, #f7fafc 40%, #f6f8fb);
-      display:grid; grid-template-rows: auto 1fr auto;
+    * {box-sizing: border-box;}
+    html, body {height: 100%;}
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Header */
-    .header{position:sticky; top:0; z-index:20; backdrop-filter: blur(8px); background: rgba(255,255,255,.6); border-bottom: 1px solid rgba(0,0,0,.05)}
-    .container{max-width:1160px; margin:0 auto; padding:14px 18px}
-    .row{display:flex; align-items:center; gap:14px}
-    .brand{display:flex; align-items:center; gap:12px; text-decoration:none}
-    .brand img{height:56px}
-    .brand .t1{font-weight:600; font-size:1.25rem; letter-spacing:.2px; color:#1f3b64}
-    .pill{margin-left:auto; display:flex; gap:8px}
-    .pill button{border:1px solid rgba(0,0,0,.06); background:#fff; padding:10px 14px; border-radius:999px; box-shadow: var(--shadow); cursor:pointer}
+    /* Header (like original) */
+    header {
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--brand);
+      background-color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    .header-left h1 {
+      margin: 0;
+      font-size: 2em;
+      color: var(--brand);
+    }
+    .logo {
+      height: 120px;
+      width: auto;
+    }
+    .subtext {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #555;
+    }
 
-    /* Hero */
-    .hero{padding:28px 18px 8px}
-    .hero-wrap{background: radial-gradient(1200px 400px at 50% -20%, #e9f3ff, transparent 60%); border-radius: var(--radius); padding: 18px}
-    .hero h1{margin:0 0 6px; font-weight:700; font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem)}
-    .hero p{margin:0; color:var(--muted)}
+    /* Main */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
 
-    /* Soft toolbar */
-    .toolbar{display:grid; grid-template-columns:1.3fr 1fr 1fr auto; gap:10px; margin-top:16px}
-    .fld{position:relative}
-    .fld input,.fld select{width:100%; padding:14px 14px; border-radius:14px; border:1px solid rgba(0,0,0,.08); background:#fff; outline:none}
-    .fld input:focus,.fld select:focus{box-shadow:0 0 0 4px var(--ring); border-color:var(--brand)}
-    .soft-btn{border:none; background:linear-gradient(180deg,#ffffff,#f3f7ff); border:1px solid rgba(0,0,0,.06); border-radius:14px; padding:12px 16px; cursor:pointer; box-shadow: var(--shadow);}
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .filters input, .filters select {
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
 
-    /* Sections */
-    .sections{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; padding: 6px 18px 18px}
-    @media (max-width: 920px){ .sections{grid-template-columns: 1fr;}}
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
 
-    .panel{background:var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid rgba(0,0,0,.06)}
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      background: #ddd;
+      height: 180px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .card:hover img {
+      transform: scale(1.1);
+    }
 
-    /* Explore grid */
-    .panel h2{margin:0; padding:14px 16px; border-bottom:1px solid rgba(0,0,0,.06); font-size:1.05rem}
-    .grid{display:grid; grid-template-columns: repeat(1, minmax(0,1fr)); gap:12px; padding:14px}
-    @media (min-width:560px){ .grid{grid-template-columns: repeat(2, 1fr);} }
-    @media (min-width:980px){ .grid{grid-template-columns: repeat(3, 1fr);} }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover .overlay {opacity: 1;}
 
-    .card{background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:12px; display:grid; gap:8px; position:relative}
-    .card:hover{box-shadow:0 16px 36px rgba(30,51,84,0.08)}
-    .card h3{margin:0; font-size:1.02rem}
-    .meta{color:var(--muted); font-size:.9rem}
-    .rowx{display:flex; align-items:center; gap:8px}
-    .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; background:linear-gradient(180deg, #2e90fa, #1677e6); color:#fff; padding:10px 12px; text-decoration:none; border-radius:12px; border:1px solid rgba(0,0,0,.04)}
-    .btn[aria-disabled="true"]{background:#b9d8ff; pointer-events:none}
-    .badge{padding:4px 8px; border-radius:999px; font-size:.8rem}
-    .ok{background:#e8f7ef; color:#137a49; border:1px solid #c7efd9}
-    .soon{background:#fff7ea; color:#9a5d11; border:1px solid #ffe0b7}
+    .overlay h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .overlay p {
+      margin: 2px 0 8px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+    .overlay a {
+      background: var(--brand);
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: inline-block;
+      transition: background 0.2s ease;
+    }
+    .overlay a:hover {background: var(--brand-dark);}
 
-    /* Right rail */
-    .rail{display:grid; gap:16px}
-    .soft{padding:14px}
-    .chips{display:flex; flex-wrap:wrap; gap:8px}
-    .chip{background:#eef5ff; color:#1f5fa3; border:1px solid #d7e7ff; padding:8px 10px; border-radius:999px; cursor:pointer}
-    .chip[aria-pressed="true"]{background:#2e90fa; color:#fff}
-
-    .compare{display:grid; gap:10px}
-    .compare .rowx{justify-content:space-between}
-    .select{width:100%; padding:12px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.08)}
-
-    .updates{display:grid; gap:10px}
-    .note{background:linear-gradient(180deg,#f9fcff,#fff); border:1px dashed #b6d7ff; border-radius:14px; padding:12px; color:#29527a}
-
-    /* Drawer preview */
-    .drawer{position: fixed; bottom: 0; left:0; right:0; max-height: 86vh; transform: translateY(100%); transition: transform .28s ease; background:#fff; border-top-left-radius: 18px; border-top-right-radius: 18px; box-shadow: 0 -20px 60px rgba(10,28,58,0.15); border-top: 1px solid rgba(0,0,0,.06);}
-    .drawer.open{transform: translateY(0)}
-    .drawer-hd{display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-bottom:1px solid rgba(0,0,0,.06)}
-    .drawer-body{padding:0; height:70vh}
-    .close{border:none; background:#f3f7ff; border:1px solid #e2ecff; border-radius:10px; padding:8px 10px; cursor:pointer}
-    .iframe{width:100%; height:100%; border:0}
-
-    /* Empty */
-    .empty{padding:14px; color:var(--muted)}
-
-    footer{padding:28px 18px; color:#466089}
+    footer {
+      background: var(--brand);
+      color: white;
+      text-align: center;
+      padding: 40px 16px 30px;
+      margin-top: 40px;
+    }
+    footer img {height: 100px;}
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container row">
-      <a class="brand" href="#" aria-label="UNDP Knowledge Hub home">
-        <img src="undp_logo.png" alt="UNDP logo">
-        <span class="t1">Nigeria State Profiles</span>
-      </a>
-      <div class="pill">
-        <button id="softMode" title="Soften UI">🌤️ Soft Mode</button>
-        <button id="clearFavs" title="Clear favourites">🗑️ Clear Favs</button>
+  <header>
+    <div class="header-left">
+      <img src="undp_logo.png" alt="UNDP Logo" class="logo" />
+      <div>
+        <h1>Nigeria State Profiles</h1>
+        <p class="subtext">Your gateway to detailed state information and overview</p>
       </div>
     </div>
   </header>
 
-  <section class="hero container">
-    <div class="hero-wrap">
-      <h1>Softer, calmer, easier exploration</h1>
-      <p>Browse by mood and need: quick chips, curated collections, and an inline preview drawer—no hard edges.</p>
-
-      <div class="toolbar">
-        <div class="fld"><input id="q" type="search" placeholder="Search states… (e.g., Rivers)"></div>
-        <div class="fld">
-          <select id="zone">
-            <option value="all">All Zones</option>
-            <option value="south-east">South East</option>
-            <option value="south-south">South South</option>
-            <option value="south-west">South West</option>
-            <option value="north-central">North Central</option>
-            <option value="north-east">North East</option>
-            <option value="north-west">North West</option>
-          </select>
-        </div>
-        <div class="fld">
-          <select id="sort">
-            <option value="name">A → Z</option>
-            <option value="availability">Available first</option>
-            <option value="zone">By zone</option>
-          </select>
-        </div>
-        <button class="soft-btn" id="openCompare">Compare</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="sections container">
-    <!-- Left: Explore -->
-    <div class="panel">
-      <h2>Explore States</h2>
-      <div class="grid" id="grid" role="list"></div>
-      <div class="empty" id="empty" hidden>No results. Try clearing filters or searching a different term.</div>
+  <main>
+    <div class="filters">
+      <input type="search" id="search" placeholder="Search states...">
+      <select id="zone">
+        <option value="all">All Zones</option>
+        <option value="south-east">South East</option>
+        <option value="south-south">South South</option>
+        <option value="south-west">South West</option>
+        <option value="north-central">North Central</option>
+        <option value="north-east">North East</option>
+        <option value="north-west">North West</option>
+      </select>
     </div>
 
-    <!-- Right: Chips, Compare, Updates -->
-    <div class="rail">
-      <div class="panel soft">
-        <h2 style="margin-top:0">Quick Chips</h2>
-        <div class="chips" id="chips" role="group" aria-label="Quick filters">
-          <button class="chip" data-chip="available" aria-pressed="false">Available</button>
-          <button class="chip" data-chip="soon" aria-pressed="false">Coming soon</button>
-          <button class="chip" data-chip="north" aria-pressed="false">Northern zones</button>
-          <button class="chip" data-chip="south" aria-pressed="false">Southern zones</button>
-          <button class="chip" data-chip="fav" aria-pressed="false">My favourites</button>
-          <button class="chip" data-chip="reset" aria-pressed="false">Reset</button>
-        </div>
-      </div>
+    <div class="grid" id="stateGrid"></div>
+  </main>
 
-      <div class="panel soft">
-        <h2 style="margin-top:0">Quick Compare</h2>
-        <div class="compare">
-          <select class="select" id="c1"></select>
-          <select class="select" id="c2"></select>
-          <div class="rowx">
-            <button class="soft-btn" id="doCompare">Compare</button>
-            <div id="compareOut" class="meta"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel soft">
-        <h2 style="margin-top:0">Updates</h2>
-        <div class="updates">
-          <div class="note">New: Inline preview drawer—open profiles without leaving the page.</div>
-          <div class="note">Tip: Press "/" to focus search. Use chips to match your browsing mood.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Drawer Preview -->
-  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Profile preview">
-    <div class="drawer-hd">
-      <strong id="drawerTitle">Preview</strong>
-      <div style="display:flex; gap:8px; align-items:center">
-        <a class="btn" id="openFull" target="_blank" rel="noopener">Open full</a>
-        <button class="close" id="closeDrawer">Close</button>
-      </div>
-    </div>
-    <div class="drawer-body">
-      <iframe class="iframe" id="preview" title="Profile PDF preview"></iframe>
-    </div>
-  </aside>
-
-  <footer class="container">
-    <div class="row" style="justify-content:space-between">
-      <div class="meta">© 2025 UNDP Nigeria Knowledge Hub</div>
-      <div class="meta" id="counts">Loading availability…</div>
-    </div>
+  <footer>
+    <img src="UNDP_logo_White.png" alt="UNDP Logo" />
+    <p>© 2025 United Nations Development Programme Nigeria Knowledge Hub</p>
   </footer>
 
-  <template id="cardTpl">
-    <article class="card" role="listitem">
-      <div class="rowx" style="justify-content:space-between">
-        <h3></h3>
-        <span class="badge">Status</span>
-      </div>
-      <div class="meta"></div>
-      <div class="rowx" style="justify-content:space-between">
-        <a class="btn" href="#" aria-disabled="true">Open</a>
-        <button class="soft-btn" data-fav="0" title="Toggle favourite">☆ Favourite</button>
-      </div>
-    </article>
-  </template>
-
   <script>
-    // Data
-    const STATES = [
-      ["Abia","abia","south-east"], ["Adamawa","adamawa","north-east"], ["Akwa Ibom","akwaibom","south-south"], ["Anambra","anambra","south-east"],
-      ["Bauchi","bauchi","north-east"], ["Bayelsa","bayelsa","south-south"], ["Benue","benue","north-central"], ["Borno","borno","north-east"],
-      ["Cross River","crossriver","south-south"], ["Delta","delta","south-south"], ["Ebonyi","ebonyi","south-east"], ["Edo","edo","south-south"],
-      ["Ekiti","ekiti","south-west"], ["Enugu","enugu","south-east"], ["FCT","FCT","north-central"], ["Gombe","gombe","north-east"],
-      ["Imo","imo","south-east"], ["Jigawa","jigawa","north-west"], ["Kaduna","kaduna","north-west"], ["Kano","kano","north-west"],
-      ["Katsina","katsina","north-west"], ["Kebbi","kebbi","north-west"], ["Kogi","kogi","north-central"], ["Kwara","kwara","north-central"],
-      ["Lagos","lagos","south-west"], ["Nasarawa","nasarawa","north-central"], ["Niger","niger","north-central"], ["Ogun","ogun","south-west"],
-      ["Ondo","ondo","south-west"], ["Osun","osun","south-west"], ["Oyo","oyo","south-west"], ["Plateau","plateau","north-central"],
-      ["Rivers","rivers","south-south"], ["Sokoto","sokoto","north-west"], ["Taraba","taraba","north-east"], ["Yobe","yobe","north-east"],
-      ["Zamfara","zamfara","north-west"]
-    ].map(([name, slug, zone]) => ({ name, slug, zone, available: null }));
+    const states = [
+      ["Abia","south-east"], ["Adamawa","north-east"], ["Akwa Ibom","south-south"], ["Anambra","south-east"],
+      ["Bauchi","north-east"], ["Bayelsa","south-south"], ["Benue","north-central"], ["Borno","north-east"],
+      ["Cross River","south-south"], ["Delta","south-south"], ["Ebonyi","south-east"], ["Edo","south-south"],
+      ["Ekiti","south-west"], ["Enugu","south-east"], ["FCT","north-central"], ["Gombe","north-east"],
+      ["Imo","south-east"], ["Jigawa","north-west"], ["Kaduna","north-west"], ["Kano","north-west"],
+      ["Katsina","north-west"], ["Kebbi","north-west"], ["Kogi","north-central"], ["Kwara","north-central"],
+      ["Lagos","south-west"], ["Nasarawa","north-central"], ["Niger","north-central"], ["Ogun","south-west"],
+      ["Ondo","south-west"], ["Osun","south-west"], ["Oyo","south-west"], ["Plateau","north-central"],
+      ["Rivers","south-south"], ["Sokoto","north-west"], ["Taraba","north-east"], ["Yobe","north-east"], ["Zamfara","north-west"]
+    ];
 
-    const el = {
-      grid: document.getElementById('grid'), empty: document.getElementById('empty'),
-      q: document.getElementById('q'), zone: document.getElementById('zone'), sort: document.getElementById('sort'),
-      chips: document.getElementById('chips'), counts: document.getElementById('counts'),
-      c1: document.getElementById('c1'), c2: document.getElementById('c2'), doCompare: document.getElementById('doCompare'),
-      openCompare: document.getElementById('openCompare'), compareOut: document.getElementById('compareOut'),
-      softMode: document.getElementById('softMode'), clearFavs: document.getElementById('clearFavs'),
-      drawer: document.getElementById('drawer'), closeDrawer: document.getElementById('closeDrawer'), preview: document.getElementById('preview'), openFull: document.getElementById('openFull'), drawerTitle: document.getElementById('drawerTitle'),
-      cardTpl: document.getElementById('cardTpl')
-    };
+    const grid = document.getElementById('stateGrid');
+    const search = document.getElementById('search');
+    const zone = document.getElementById('zone');
 
-    const northSet = new Set(["north-east","north-west","north-central"]);
-    const state = { q:'', zone:'all', sort:'name', chips: new Set(), favs: new Set(JSON.parse(localStorage.getItem('soft_favs')||'[]')) };
-
-    function updateCounts(){
-      const total = STATES.length;
-      const available = STATES.filter(s=>s.available).length;
-      el.counts.textContent = `${available}/${total} profiles available · Favs: ${state.favs.size}`;
+    function render() {
+      const query = search.value.toLowerCase();
+      const zoneVal = zone.value;
+      grid.innerHTML = '';
+      states
+        .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))
+        .forEach(([name, z]) => {
+          const slug = name.toLowerCase().replace(/\s+/g, '');
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <img src="images/${slug}.jpg" alt="${name}">
+            <div class="overlay">
+              <h3>${name}</h3>
+              <p>${z.replace('-', ' ')}</p>
+              <a href="viewer.html?state=${slug}">View Profile</a>
+            </div>`;
+          grid.appendChild(card);
+        });
     }
 
-    async function headCheck(item){
-      try{ const r = await fetch(`${item.slug}.pdf`, {method:'HEAD'}); item.available = r.ok; }
-      catch{ item.available = false; }
-    }
-    async function init(){
-      await Promise.allSettled(STATES.map(headCheck));
-      updateCounts();
-      initCompareOptions();
-      render();
-    }
-
-    function initCompareOptions(){
-      const opts = STATES.slice().sort((a,b)=>a.name.localeCompare(b.name));
-      for (const s of opts){
-        const o1 = new Option(s.name, s.slug); const o2 = new Option(s.name, s.slug);
-        el.c1.add(o1); el.c2.add(o2);
-      }
-    }
-
-    function matchFilters(s){
-      if (state.q && !s.name.toLowerCase().includes(state.q)) return false;
-      if (state.zone !== 'all' && s.zone !== state.zone) return false;
-      if (state.chips.has('available') && !s.available) return false;
-      if (state.chips.has('soon') && s.available) return false;
-      if (state.chips.has('north') && !northSet.has(s.zone)) return false;
-      if (state.chips.has('south') && northSet.has(s.zone)) return false;
-      if (state.chips.has('fav') && !state.favs.has(s.slug)) return false;
-      return true;
-    }
-
-    function render(){
-      const list = STATES.filter(matchFilters).sort((a,b)=>{
-        if (state.sort==='availability') return (+b.available - +a.available) || a.name.localeCompare(b.name);
-        if (state.sort==='zone') return a.zone.localeCompare(b.zone) || a.name.localeCompare(b.name);
-        return a.name.localeCompare(b.name);
-      });
-      el.grid.innerHTML = '';
-      if (!list.length){ el.empty.hidden = false; return; } else el.empty.hidden = true;
-      for (const s of list){ el.grid.appendChild(card(s)); }
-    }
-
-    function card(s){
-      const node = el.cardTpl.content.cloneNode(true);
-      const card = node.querySelector('.card');
-      const h3 = node.querySelector('h3'); const badge = node.querySelector('.badge'); const meta = node.querySelector('.meta');
-      const btn = node.querySelector('.btn'); const favBtn = node.querySelector('[data-fav]');
-
-      h3.textContent = s.name; meta.textContent = s.zone.replace('-', ' ');
-      badge.textContent = s.available ? 'Available' : 'Coming soon';
-      badge.classList.add(s.available ? 'ok' : 'soon');
-
-      if (s.available){
-        btn.removeAttribute('aria-disabled');
-        btn.addEventListener('click', (e)=>{ e.preventDefault(); openDrawer(s); });
-      } else {
-        btn.setAttribute('aria-disabled','true');
-      }
-
-      favBtn.textContent = state.favs.has(s.slug) ? '★ Favourited' : '☆ Favourite';
-      favBtn.addEventListener('click', ()=>{
-        if (state.favs.has(s.slug)) state.favs.delete(s.slug); else state.favs.add(s.slug);
-        localStorage.setItem('soft_favs', JSON.stringify([...state.favs]));
-        updateCounts(); render();
-      });
-
-      return node;
-    }
-
-    function openDrawer(s){
-      el.drawerTitle.textContent = `${s.name} — preview`;
-      const url = `viewer.html?state=${encodeURIComponent(s.slug)}`;
-      el.preview.src = url;
-      el.openFull.href = url;
-      el.drawer.classList.add('open');
-      el.drawer.setAttribute('aria-hidden','false');
-    }
-    el.closeDrawer.addEventListener('click', ()=>{ el.drawer.classList.remove('open'); el.drawer.setAttribute('aria-hidden','true'); el.preview.src='about:blank'; });
-
-    // Events
-    el.q.addEventListener('input', e=>{ state.q = e.target.value.trim().toLowerCase(); render(); });
-    el.zone.addEventListener('change', e=>{ state.zone = e.target.value; render(); });
-    el.sort.addEventListener('change', e=>{ state.sort = e.target.value; render(); });
-
-    el.chips.addEventListener('click', (e)=>{
-      const c = e.target.closest('.chip'); if (!c) return;
-      const key = c.dataset.chip;
-      if (key==='reset'){ state.chips.clear(); [...el.chips.querySelectorAll('.chip')].forEach(x=>x.setAttribute('aria-pressed','false')); }
-      else {
-        const pressed = c.getAttribute('aria-pressed')==='true';
-        c.setAttribute('aria-pressed', String(!pressed));
-        if (pressed) state.chips.delete(key); else state.chips.add(key);
-      }
-      render();
-    });
-
-    // Compare
-    function describe(slug){ return STATES.find(x=>x.slug===slug); }
-    function cmp(){
-      const a = describe(el.c1.value); const b = describe(el.c2.value);
-      if (!a || !b) { el.compareOut.textContent = 'Select two states'; return; }
-      const sameZone = a.zone===b.zone ? `Both are in ${a.zone.replace('-', ' ')}` : `${a.name} is ${a.zone.replace('-', ' ')}, ${b.name} is ${b.zone.replace('-', ' ')}`;
-      const avail = `${a.name}: ${a.available? 'Available':'Coming soon'} · ${b.name}: ${b.available? 'Available':'Coming soon'}`;
-      el.compareOut.textContent = `${sameZone} · ${avail}`;
-    }
-    el.doCompare.addEventListener('click', cmp);
-    el.openCompare.addEventListener('click', ()=>{
-      document.querySelector('.rail .panel.soft').scrollIntoView({behavior:'smooth'});
-    });
-
-    // Soft mode (extra rounded corners)
-    el.softMode.addEventListener('click', ()=>{
-      document.documentElement.style.setProperty('--radius','22px');
-      document.body.style.background = 'linear-gradient(180deg,#f7fbff,#fbfdff 40%, #f7fbff)';
-    });
-
-    el.clearFavs.addEventListener('click', ()=>{
-      state.favs.clear(); localStorage.removeItem('soft_favs'); updateCounts(); render();
-    });
-
-    // Keyboard shortcut
-    window.addEventListener('keydown', (e)=>{ if (e.key==='/' && document.activeElement!==el.q){ e.preventDefault(); el.q.focus(); } });
-
-    // Start
+    search.addEventListener('input', render);
+    zone.addEventListener('change', render);
     render();
-    init();
   </script>
 </body>
 </html>
