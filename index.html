@@ -123,12 +123,12 @@
     .overlay a:hover { background: var(--brand-dark); }
     .card:hover .overlay {opacity: 1;}
 
-    .titlebar { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 2; }
-    .titlebar .name { display: inline-block; background: rgba(0,0,0,0.55); color: #fff; padding: 6px 10px; border-radius: 10px; font-size: 0.95rem; backdrop-filter: blur(2px); }
-    .titlebar .zone { margin-left: 8px; font-size: 0.8rem; color: #e8f0f8; opacity: 0.9; }
+    .titlebar { position: absolute; top: 10px; left: 10px; z-index: 2; }
+    .titlebar .name { display: inline-block; background: rgba(0,0,0,0.6); color: #fff; padding: 6px 10px; border-radius: 10px; font-size: 0.95rem; backdrop-filter: blur(2px); }
 
-    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; gap: 8px; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55)); opacity: 0; transition: opacity 0.25s ease; color: #fff; }
+    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px; gap: 10px; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55)); opacity: 0; transition: opacity 0.25s ease; color: #fff; }
     .card:hover .overlay { opacity: 1; }
+    .overlay .zone { font-size: 0.88rem; opacity: 0.95; }
     .overlay a { pointer-events: auto; align-self: flex-start; background: var(--brand); color: #fff; text-decoration: none; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; transition: background 0.2s ease; }
     .overlay a:hover { background: var(--brand-dark); }
 
@@ -206,9 +206,9 @@
             <img src="images/${slug}.jpg" alt="${name}" loading="lazy">
             <div class="titlebar">
               <span class="name">${name}</span>
-              <span class="zone">${z.replace('-', ' ')}</span>
             </div>
             <div class="overlay">
+              <div class="zone">${z.replace('-', ' ')}</div>
               <a href="viewer.html?state=${slug}">View Profile</a>
             </div>`;
           grid.appendChild(card);
