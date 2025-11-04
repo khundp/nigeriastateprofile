@@ -190,6 +190,14 @@
   #stateGrid > .card { width: auto !important; }
   .card { aspect-ratio: 4 / 3; }
   * { min-width: 0; }
+  /* --- Hard column layout to fix vertical stacking --- */
+  #stateGrid { display: grid !important; gap: 18px !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  @media (min-width: 640px){ #stateGrid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+  @media (min-width: 900px){ #stateGrid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+  @media (min-width: 1280px){ #stateGrid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; } }
+  #stateGrid .card { grid-column: auto !important; width: auto !important; }
+  /* Slightly shorter cards so rows feel lighter on small screens */
+  .card { aspect-ratio: 3 / 2; }
   </style>
 </head>
 <body>
