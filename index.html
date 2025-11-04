@@ -81,8 +81,9 @@
     /* Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
     }
 
     .card {
@@ -91,7 +92,8 @@
       overflow: hidden;
       cursor: pointer;
       background: #ddd;
-      height: 180px;
+      aspect-ratio: 4 / 3; /* responsive, keeps cards side-by-side */
+      min-height: 150px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .card:hover {
@@ -99,6 +101,7 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     .card img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -152,6 +155,9 @@
       margin-top: 40px;
     }
     footer img {height: 100px;}
+  @media (min-width: 768px) {
+    .grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  }
   </style>
 </head>
 <body>
