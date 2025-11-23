@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private State PDF Viewer</title>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #f5f7fa;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #222;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #d4dbe6;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-link {
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #0072bc;
+      color: #fff;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .back-link:hover {
+      background: #005a94;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #003366;
+    }
+
+    .subtitle {
+      font-size: .8rem;
+      color: #555;
+    }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .info-bar {
+      font-size: 0.9rem;
+      color: #444;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .info-bar a {
+      color: #0072bc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .viewer {
+      flex: 1;
+      border: 1px solid #cfd5e3;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      min-height: 70vh;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #message {
+      padding: 16px;
+      background: #fff3cd;
+      border-left: 4px solid #ffe399;
+      color: #856404;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    code {
+      background: #eff1f3;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: .85em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a class="back-link" href="https://khundp.github.io/nigeriastateprofile/">&larr; Public Portal</a>
+    <div class="title-block">
+      <div class="title" id="stateTitle">Private PDF Access</div>
+      <div class="subtitle">Internal use only — Full PDF access</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="info-bar">
+      <span id="fileInfo"></span>
+      <span id="downloadWrapper" style="display:none;">
+        · <a id="downloadLink" href="#" target="_blank">Open PDF in new tab</a>
+      </span>
+    </div>
+
+    <div class="viewer" id="viewerBox" style="display:none;">
+      <iframe id="pdfFrame"></iframe>
+    </div>
+
+    <div id="message" style="display:none;"></div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = (params.get("state") || "").toLowerCase();
+
+    // Title mapping
+    const STATES = {
+      abia:"Abia", adamawa:"Adamawa", akwaibom:"Akwa Ibom", anambra:"Anambra",
+      bauchi:"Bauchi", bayelsa:"Bayelsa", benue:"Benue", borno:"Borno",
+      crossriver:"Cross River", delta:"Delta", ebonyi:"Ebonyi", edo:"Edo",
+      ekiti:"Ekiti", enugu:"Enugu", fct:"FCT", gombe:"Gombe", imo:"Imo",
+      jigawa:"Jigawa", kaduna:"Kaduna", kano:"Kano", katsina:"Katsina",
+      kebbi:"Kebbi", kogi:"Kogi", kwara:"Kwara", lagos:"Lagos", nasarawa:"Nasarawa",
+      niger:"Niger", ogun:"Ogun", ondo:"Ondo", osun:"Osun", oyo:"Oyo",
+      plateau:"Plateau", rivers:"Rivers", sokoto:"Sokoto", taraba:"Taraba",
+      yobe:"Yobe", zamfara:"Zamfara"
+    };
+
+    const stateTitle = document.getElementById("stateTitle");
+    const fileInfo = document.getElementById("fileInfo");
+    const pdfFrame = document.getElementById("pdfFrame");
+    const downloadWrapper = document.getElementById("downloadWrapper");
+    const downloadLink = document.getElementById("downloadLink");
+    const viewerBox = document.getElementById("viewerBox");
+    const messageEl = document.getElementById("message");
+
+    function showMessage(msg) {
+      messageEl.innerHTML = msg;
+      messageEl.style.display = "block";
+    }
+
+    if (!slug) {
+      showMessage(
+        'No state provided.<br>Use <code>private.html?state=akwaibom</code>.'
+      );
+    } else {
+      const name = STATES[slug] || slug.toUpperCase();
+      stateTitle.textContent = `${name} – PDF`;
+
+      const pdfPath = `pdf/${slug}.pdf`;
+
+      fileInfo.textContent = `File: ${pdfPath}`;
+      downloadWrapper.style.display = "inline";
+      downloadLink.href = pdfPath;
+
+      // Embed PDF
+      pdfFrame.src = pdfPath + "#toolbar=1";
+      viewerBox.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
