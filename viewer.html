@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>State PDF Viewer</title>
+  <title>State Profile Viewer</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -15,19 +15,15 @@
       height: 100%;
       overflow: hidden;
       -webkit-overflow-scrolling: touch;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f2f4f8;
     }
 
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
+    /* Back button */
     #back-button {
       position: fixed;
-      top: 60px;
-      left: 10px;
+      top: 16px;
+      left: 12px;
       background-color: #0072bc;
       color: white;
       padding: 8px 14px;
@@ -42,35 +38,188 @@
     #back-button:hover {
       background-color: #005a94;
     }
+
+    /* Viewer wrapper */
+    #viewer-wrapper {
+      position: fixed;
+      inset: 0;
+      padding: 60px 10px 50px; /* leave space for back & controls */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+    }
+
+    canvas {
+      background: #ffffff;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      margin: auto;
+    }
+
+    /* Bottom controls */
+    #controls {
+      position: fixed;
+      left: 50%;
+      bottom: 8px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      z-index: 9999;
+    }
+
+    #controls button {
+      border: none;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f0f4ff;
+      color: #003366;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    #controls button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    #controls span {
+      white-space: nowrap;
+    }
+
+    /* Message when no state or no image */
+    #message {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
+  <a id="back-button" href="https://khundp.github.io/nigeriastateprofile/">&larr; Back</a>
+
+  <div id="viewer-wrapper">
+    <canvas id="pageCanvas"></canvas>
+  </div>
+
+  <div id="controls" style="display:none;">
+    <button id="prevPage">&larr; Prev</button>
+    <span id="pageLabel">Page 1</span>
+    <button id="nextPage">Next &rarr;</button>
+  </div>
+
+  <div id="message" style="display:none;"></div>
+
   <script>
+    // Disable right-click everywhere (no context menu / save image as)
+    document.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+    });
+
     const params = new URLSearchParams(window.location.search);
-    const state = params.get("state");
+    const stateSlug = (params.get("state") || "").toLowerCase();
 
-    if (state) {
-      const url = `${state.toLowerCase()}.pdf#toolbar=0`;
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const canvas = document.getElementById("pageCanvas");
+    const ctx = canvas.getContext("2d");
+    const controls = document.getElementById("controls");
+    const prevBtn = document.getElementById("prevPage");
+    const nextBtn = document.getElementById("nextPage");
+    const pageLabel = document.getElementById("pageLabel");
+    const messageEl = document.getElementById("message");
 
-      if (isMobile) {
-        window.location.href = url;
-      } else {
-        // Avoid layout shift and ensure full responsiveness
-        const backBtn = document.createElement("a");
-        backBtn.id = "back-button";
-        backBtn.href = "https://khundp.github.io/nigeriastateprofile/";
-        backBtn.innerHTML = "&larr; Back";
-        document.body.appendChild(backBtn);
+    let currentPage = 1;
+    let reachedEnd = false; // set to true once we detect no more pages
 
-        const iframe = document.createElement("iframe");
-        iframe.src = url;
-        iframe.allowFullscreen = true;
-        document.body.appendChild(iframe);
-      }
+    if (!stateSlug) {
+      showMessage("No state specified.<br>Use <code>?state=abia</code> in the URL.");
     } else {
-      document.body.innerHTML = "<p>No state specified. Use ?state=abia in the URL.</p>";
+      // Start by loading page 1
+      loadPage(1);
     }
+
+    function showMessage(msg) {
+      messageEl.innerHTML = msg;
+      messageEl.style.display = "flex";
+      controls.style.display = "none";
+      canvas.style.display = "none";
+    }
+
+    function hideMessage() {
+      messageEl.style.display = "none";
+      canvas.style.display = "block";
+    }
+
+    function getImagePath(slug, pageNumber) {
+      // Matches: images/states/akwaibom/akwaibom_page-0001.jpg
+      const page = String(pageNumber).padStart(4, "0");
+      return `images/states/${slug}/${slug}_page-${page}.jpg`;
+    }
+
+    function loadPage(pageNumber) {
+      if (!stateSlug) return;
+
+      hideMessage();
+
+      const img = new Image();
+      img.src = getImagePath(stateSlug, pageNumber);
+
+      img.onload = function () {
+        reachedEnd = false;
+        currentPage = pageNumber;
+
+        // Draw at natural resolution; CSS will scale to fit.
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        pageLabel.textContent = `Page ${currentPage}`;
+        controls.style.display = "flex";
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = false;
+      };
+
+      img.onerror = function () {
+        if (pageNumber === 1 && currentPage === 1) {
+          showMessage(
+            `No page images found for this state:<br><strong>${stateSlug}</strong><br><br>` +
+            `Expected at: <code>${getImagePath(stateSlug, 1)}</code>`
+          );
+        } else {
+          // No more pages beyond current one
+          reachedEnd = true;
+          nextBtn.disabled = true;
+        }
+      };
+    }
+
+    prevBtn.addEventListener("click", function () {
+      if (currentPage > 1) {
+        loadPage(currentPage - 1);
+      }
+    });
+
+    nextBtn.addEventListener("click", function () {
+      if (!reachedEnd) {
+        loadPage(currentPage + 1);
+      }
+    });
   </script>
 </body>
 </html>
