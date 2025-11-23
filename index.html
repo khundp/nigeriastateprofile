@@ -26,10 +26,9 @@
       flex-direction: column;
     }
 
-    /* Header (like original) */
+    /* Header */
     header {
       padding: 12px 16px;
-     
       border-bottom: 2px solid var(--brand);
       background-color: #fff;
       position: sticky;
@@ -49,17 +48,14 @@
     .logo { height: 120px; width: auto; }
     .subtext { margin-top: 10px; font-size: 1.1em; color: #555; }
 
-    /* Main content width: keep readable and avoids over-large cards */
-main {
-  flex: 1;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 8px;
-}
-
-
-
+    /* Main */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 8px;
+    }
 
     .filters {
       display: flex;
@@ -67,7 +63,7 @@ main {
       align-items: center;
       gap: 10px;
       margin-bottom: 14px;
-       margin-top: 24px; /* adds top space below header */
+      margin-top: 24px;
       flex-wrap: wrap;
     }
     .filters input, .filters select {
@@ -78,83 +74,114 @@ main {
       background: #fff;
     }
 
-    /* Grid: 1/2/3/4 columns responsive; fixed 4 columns on desktop */
-#stateGrid {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  margin: 0;
-}
-@media (max-width: 900px) {
-  #stateGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-}
-@media (max-width: 640px) {
-  #stateGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-}
-
+    /* Grid */
+    #stateGrid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      #stateGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      #stateGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    }
 
     .card {
       position: relative;
       border-radius: 16px;
-      overflow: hidden;         /* clip zooming image */
+      overflow: hidden;
       cursor: pointer;
       background: #eee;
-      aspect-ratio: 4 / 3;      /* consistent visual size; not too tall/wide */
+      aspect-ratio: 4 / 3;
       transition: box-shadow 0.25s ease, transform 0.25s ease;
       isolation: isolate;
     }
-    .card:hover { box-shadow: 0 14px 28px rgba(0,0,0,0.18); transform: translateY(-2px); }
+    .card:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+      transform: translateY(-2px);
+    }
 
     .card img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      transition: transform 0.45s ease; transform: translateZ(0);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+      transform: translateZ(0);
     }
     .card:hover img { transform: scale(1.06); }
 
-    /* Always-visible name at top-left */
-/* Title block */
-.titlebar{
-  position:absolute; top:10px; left:12px; z-index:3;
-  display:flex; flex-direction:column; align-items:flex-start; gap:0;
-}
+    /* Title block */
+    .titlebar {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .titlebar .name {
+      background: rgba(0,0,0,.6);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: .95rem;
+      backdrop-filter: blur(2px);
+    }
+    .titlebar .zone {
+      text-transform: capitalize;
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 8px;
+      margin-top: 0;
+      transform: translateY(-4px);
+      transition:
+        opacity .2s ease,
+        transform .2s ease,
+        max-height .2s ease,
+        padding .2s ease,
+        margin-top .2s ease,
+        visibility 0s linear .2s;
+    }
+    .card:hover .titlebar .zone {
+      opacity: 1;
+      visibility: visible;
+      max-height: 24px;
+      padding: 4px 8px;
+      margin-top: 4px;
+      transform: translateY(0);
+      transition:
+        opacity .2s ease,
+        transform .2s ease,
+        max-height .2s ease,
+        padding .2s ease,
+        margin-top .2s ease,
+        visibility 0s;
+    }
 
-/* State name (always visible) */
-.titlebar .name{
-  background:rgba(0,0,0,.6); color:#fff; padding:6px 10px;
-  border-radius:10px; font-size:.95rem; backdrop-filter:blur(2px);
-}
-
-/* Zone: hidden by default (takes no space) */
-.titlebar .zone{
-    text-transform: capitalize;
-  background:rgba(0,0,0,.45); color:#fff; border-radius:8px;
-  /* start hidden */
-  opacity:0; visibility:hidden; max-height:0; overflow:hidden;
-  padding:0 8px; margin-top:0; transform:translateY(-4px);
-  transition: opacity .2s ease, transform .2s ease,
-              max-height .2s ease, padding .2s ease, margin-top .2s ease,
-              visibility 0s linear .2s; /* delay visibility to match fade out */
-}
-
-/* Show zone only on hover */
-.card:hover .titlebar .zone{
-  opacity:1; visibility:visible; max-height:24px;
-  padding:4px 8px; margin-top:4px; transform:translateY(0);
-  transition: opacity .2s ease, transform .2s ease,
-              max-height .2s ease, padding .2s ease, margin-top .2s ease,
-              visibility 0s; /* visible immediately on hover */
-}
-
-
-
-    /* Hover overlay shows zone + description + button */
+    /* Hover overlay */
     .overlay {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 12px; gap: 10px; pointer-events: none;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+      gap: 10px;
+      pointer-events: none;
       background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55));
-      opacity: 0; transition: opacity 0.25s ease; color: #fff;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      color: #fff;
     }
     .card:hover .overlay { opacity: 1; }
     .overlay .zone { font-size: 0.92rem; opacity: 0.95; }
@@ -162,8 +189,12 @@ main {
     .overlay a {
       pointer-events: auto;
       align-self: flex-start;
-      background: var(--brand); color: #fff; text-decoration: none;
-      padding: 8px 12px; border-radius: 8px; font-size: 0.9rem;
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
       transition: background 0.2s ease;
     }
     .overlay a:hover { background: var(--brand-dark); }
@@ -227,44 +258,43 @@ main {
 
     // --- Descriptions map (slug -> short text) ---
     const DESC = {
-abia: "Home of Enterprise and Innovation",
-adamawa: "Land of Beauty, Hills, and Harmony",
-akwaibom: "Nigeria’s Rising Coastal Power",
-anambra: "Where Commerce Meets Ingenuity",
-bauchi: "Gateway to Adventure and Nature",
-bayelsa: "Heart of Nigeria’s Blue Economy",
-benue: "Proudly the Nation’s Food Basket",
-borno: "Resilience, Heritage, and Hope",
-crossriver: "Africa’s Green Paradise",
-delta: "Energy, Diversity, and Progress",
-ebonyi: "The Salt of the Nation",
-edo: "Cradle of Culture and Creativity",
-ekiti: "Land of Honor and Learning",
-enugu: "Coal City of Opportunities",
-fct: "The Nation’s Capital of Unity",
-gombe: "Jewel of the Savannah",
-imo: "Heartland of Industry and Talent",
-jigawa: "Growing with Purpose",
-kaduna: "Center of Learning and Enterprise",
-kano: "Commerce Capital of the North",
-katsina: "Strength in Agriculture and Tradition",
-kebbi: "Land of Rice and Rich Heritage",
-kogi: "Confluence of Opportunities",
-kwara: "State of Harmony and Ideas",
-lagos: "Where Nigeria Thrives",
-nasarawa: "Home of Minerals and New Horizons",
-niger: "Powering Agriculture and Energy",
-ogun: "Industrial Heart of the Southwest",
-ondo: "Cocoa, Coastlines, and Growth",
-osun: "Soul of Yoruba Culture",
-oyo: "Land of Knowledge and Heritage",
-plateau: "Home of Peace and Cool Beauty",
-rivers: "Energy Hub of the Nation",
-sokoto: "Seat of the Caliphate, Center of Wisdom",
-taraba: "Nature’s Gift to Nigeria",
-yobe: "Emerging Strength of the Sahel",
-zamfara: "Land of Gold and Promise"
-
+      abia: "Home of Enterprise and Innovation",
+      adamawa: "Land of Beauty, Hills, and Harmony",
+      akwaibom: "Nigeria’s Rising Coastal Power",
+      anambra: "Where Commerce Meets Ingenuity",
+      bauchi: "Gateway to Adventure and Nature",
+      bayelsa: "Heart of Nigeria’s Blue Economy",
+      benue: "Proudly the Nation’s Food Basket",
+      borno: "Resilience, Heritage, and Hope",
+      crossriver: "Africa’s Green Paradise",
+      delta: "Energy, Diversity, and Progress",
+      ebonyi: "The Salt of the Nation",
+      edo: "Cradle of Culture and Creativity",
+      ekiti: "Land of Honor and Learning",
+      enugu: "Coal City of Opportunities",
+      fct: "The Nation’s Capital of Unity",
+      gombe: "Jewel of the Savannah",
+      imo: "Heartland of Industry and Talent",
+      jigawa: "Growing with Purpose",
+      kaduna: "Center of Learning and Enterprise",
+      kano: "Commerce Capital of the North",
+      katsina: "Strength in Agriculture and Tradition",
+      kebbi: "Land of Rice and Rich Heritage",
+      kogi: "Confluence of Opportunities",
+      kwara: "State of Harmony and Ideas",
+      lagos: "Where Nigeria Thrives",
+      nasarawa: "Home of Minerals and New Horizons",
+      niger: "Powering Agriculture and Energy",
+      ogun: "Industrial Heart of the Southwest",
+      ondo: "Cocoa, Coastlines, and Growth",
+      osun: "Soul of Yoruba Culture",
+      oyo: "Land of Knowledge and Heritage",
+      plateau: "Home of Peace and Cool Beauty",
+      rivers: "Energy Hub of the Nation",
+      sokoto: "Seat of the Caliphate, Center of Wisdom",
+      taraba: "Nature’s Gift to Nigeria",
+      yobe: "Emerging Strength of the Sahel",
+      zamfara: "Land of Gold and Promise"
     };
 
     function slugify(n){ return n.toLowerCase().replace(/\s+/g, ''); }
@@ -289,16 +319,15 @@ zamfara: "Land of Gold and Promise"
           card.className = 'card';
           card.innerHTML = `
             <img src="images/${slug}.jpg" alt="${name}" loading="lazy">
-            
-<div class="titlebar">
-  <span class="name">${name}</span>
-  <span class="zone">${z.replace('-', ' ')}</span>
-</div>
-<div class="overlay">
-  <div class="desc">${getDesc(name, z)}</div>
-  <a href="viewer.html?state=${slug}">View Profile</a>
-</div>
-`;
+            <div class="titlebar">
+              <span class="name">${name}</span>
+              <span class="zone">${z.replace('-', ' ')}</span>
+            </div>
+            <div class="overlay">
+              <div class="desc">${getDesc(name, z)}</div>
+              <a href="viewer.html?state=${slug}">View Profile</a>
+            </div>
+          `;
           grid.appendChild(card);
         });
     }
