@@ -181,10 +181,10 @@
     .overlay a:hover { background: var(--brand-dark); }
 
 
-/* --- UNDP OFFICIAL BLUE FOOTER --- */
+/* --- UNDP OFFICIAL BLUE FOOTER WITH FULL TEXT --- */
 .undp-footer {
-  background: #0067b9; /* Official UNDP blue */
-  padding: 50px 20px;
+  background: #0067b9; /* Official UNDP Blue */
+  padding: 55px 20px;
   margin-top: 60px;
   color: #ffffff;
 }
@@ -192,21 +192,30 @@
 .undp-footer-content {
   display: flex;
   align-items: center;
-  gap: 22px;
-  margin-left: 40px;    /* Pushes content to left like the official layout */
+  gap: 26px;
+  margin-left: 40px; /* shifts content to left, like your reference footer */
 }
 
 .undp-footer-logo {
-  width: 140px;         /* Larger logo like your screenshot */
+  width: 140px;   /* Larger professional size */
   height: auto;
 }
 
 .undp-footer-text {
-  font-size: 1.45rem;   /* Crisp readable size */
+  font-size: 1.45rem;
   font-weight: 500;
   line-height: 1.35;
-  font-family: Inter, system-ui, sans-serif; /* Same as your site */
+  font-family: Inter, system-ui, sans-serif;
+  color: #ffffff;
 }
+
+.undp-footer-text .undp-subtext {
+  margin-top: 12px;
+  display: inline-block;
+  font-size: 1.25rem;
+  opacity: 0.95;
+}
+
 
 
   </style>
@@ -240,22 +249,19 @@
     <div id="stateGrid"></div>
   </main>
 
-  <!-- NEW FOOTER -->
 <footer class="undp-footer">
   <div class="undp-footer-content">
     <img src="UNDP_logo_White.png" alt="UNDP Logo" class="undp-footer-logo">
 
-
- <div class="undp-footer-text">
+    <div class="undp-footer-text">
       United Nations<br>
       Development Programme<br>
-   Nigeria<br><br>
-   Knowledge Hub
-
-
+      Nigeria<br>
+      <span class="undp-subtext">Knowledge Hub</span>
     </div>
   </div>
 </footer>
+
 
     
 
