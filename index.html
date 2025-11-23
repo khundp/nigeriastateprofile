@@ -180,33 +180,35 @@
     }
     .overlay a:hover { background: var(--brand-dark); }
 
-    /* FOOTER (Updated UNDP Data Hub style) */
-    footer {
-      background: #ffffff;
-      padding: 40px 20px;
-      border-top: 2px solid #0072bc;
-      margin-top: 40px;
-    }
 
-    .footer-content {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+footer {
+  background: var(--brand); /* #0072bc blue */
+  padding: 40px 20px;
+  margin-top: 40px;
+  color: #ffffff;
+}
 
-    .footer-logo {
-      width: 90px;
-      height: auto;
-    }
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-    .footer-text {
-      font-size: 1.25rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: #000;
-    }
+.footer-logo {
+  width: 85px;
+  height: auto;
+  filter: brightness(0) invert(1); /* ensures white logo stays crisp */
+}
+
+.footer-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #ffffff;
+}
+
   </style>
 </head>
 
@@ -239,17 +241,19 @@
   </main>
 
   <!-- NEW FOOTER -->
-  <footer>
-    <div class="footer-content">
-      <img src="UNDP_logo_White.png" alt="UNDP Logo" class="footer-logo" />
-      <div class="footer-text">
-        <div>United Nations</div>
-        <div>Development Programme</div>
-        <div>Nigeria</div>
-        <div style="margin-top: 12px;">Knowledge Hub</div>
-      </div>
+<footer>
+  <div class="footer-content">
+    <img src="UNDP_logo_White.png" alt="UNDP Logo" class="footer-logo" />
+
+    <div class="footer-text">
+      <div>United Nations</div>
+      <div>Development Programme</div>
+      <div>Nigeria</div>
+      <div style="margin-top: 12px;">Knowledge Hub</div>
     </div>
-  </footer>
+  </div>
+</footer>
+
 
   <script>
     const states = [
