@@ -193,13 +193,15 @@ footer {
   align-items: center;
   gap: 22px;
   max-width: 900px;
-  margin: 0 auto;
+  margin-left: 0;    /* anchor to left */
+  margin-right: auto;
 }
 
+
 .footer-logo {
-  width: 85px;
+  width: 120px;   /* increase size (default was ~85–90px) */
   height: auto;
-  filter: brightness(0) invert(1); /* ensures white logo stays crisp */
+  filter: brightness(0) invert(1); 
 }
 
 .footer-text {
