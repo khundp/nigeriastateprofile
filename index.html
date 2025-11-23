@@ -182,33 +182,32 @@
 
 
 footer {
-  background: var(--brand); /* #0072bc blue */
-  padding: 40px 20px;
-  margin-top: 40px;
+ /* --- UNDP OFFICIAL BLUE FOOTER --- */
+.undp-footer {
+  background: #0067b9; /* Official UNDP blue */
+  padding: 50px 20px;
+  margin-top: 60px;
   color: #ffffff;
 }
 
-.footer-content {
+.undp-footer-content {
   display: flex;
   align-items: center;
   gap: 22px;
-  max-width: 900px;
-  margin-left: 0;    /* anchor to left */
-  margin-right: auto;
+  margin-left: 40px;    /* Pushes content to left like the official layout */
 }
 
-
-.footer-logo {
-  width: 120px;   /* increase size (default was ~85–90px) */
+.undp-footer-logo {
+  width: 140px;         /* Larger logo like your screenshot */
   height: auto;
-  filter: brightness(0) invert(1); 
 }
 
-.footer-text {
-  font-size: 1.25rem;
+.undp-footer-text {
+  font-size: 1.45rem;   /* Crisp readable size */
   font-weight: 500;
-  line-height: 1.4;
-  color: #ffffff;
+  line-height: 1.35;
+  font-family: Inter, system-ui, sans-serif; /* Same as your site */
+
 }
 
   </style>
@@ -243,18 +242,24 @@ footer {
   </main>
 
   <!-- NEW FOOTER -->
-<footer>
-  <div class="footer-content">
-    <img src="UNDP_logo_White.png" alt="UNDP Logo" class="footer-logo" />
+<footer class="undp-footer">
+  <div class="undp-footer-content">
+    <img src="UNDP_logo_White.png" alt="UNDP Logo" class="undp-footer-logo">
 
-    <div class="footer-text">
-      <div>United Nations</div>
-      <div>Development Programme</div>
-      <div>Nigeria</div>
-      <div style="margin-top: 12px;">Knowledge Hub</div>
+
+ <div class="undp-footer-text">
+      United Nations<br>
+      Development Programme<br>
+   Nigeria<br><br>
+   Knowledge Hub
+
+
     </div>
   </div>
 </footer>
+
+    
+
 
 
   <script>
