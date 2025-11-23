@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --brand: #0072bc;
@@ -15,8 +16,10 @@
       --text: #333;
       --radius: 14px;
     }
+
     * { box-sizing: border-box; }
     html, body { height: 100%; }
+
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
@@ -52,18 +55,15 @@
     main {
       flex: 1;
       width: 100%;
-      max-width: none;
       margin: 0;
       padding: 8px;
     }
 
     .filters {
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
       margin-top: 24px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
     }
     .filters input, .filters select {
@@ -79,7 +79,6 @@
       display: grid;
       gap: 8px;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      margin: 0;
     }
     @media (max-width: 900px) {
       #stateGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
@@ -94,9 +93,8 @@
       overflow: hidden;
       cursor: pointer;
       background: #eee;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 4/3;
       transition: box-shadow 0.25s ease, transform 0.25s ease;
-      isolation: isolate;
     }
     .card:hover {
       box-shadow: 0 14px 28px rgba(0,0,0,0.18);
@@ -107,22 +105,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
       transition: transform 0.45s ease;
-      transform: translateZ(0);
     }
-    .card:hover img { transform: scale(1.06); }
+    .card:hover img {
+      transform: scale(1.06);
+    }
 
     /* Title block */
     .titlebar {
       position: absolute;
       top: 10px;
       left: 12px;
-      z-index: 3;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       gap: 0;
+      z-index: 3;
     }
     .titlebar .name {
       background: rgba(0,0,0,.6);
@@ -140,17 +137,10 @@
       opacity: 0;
       visibility: hidden;
       max-height: 0;
-      overflow: hidden;
       padding: 0 8px;
       margin-top: 0;
       transform: translateY(-4px);
-      transition:
-        opacity .2s ease,
-        transform .2s ease,
-        max-height .2s ease,
-        padding .2s ease,
-        margin-top .2s ease,
-        visibility 0s linear .2s;
+      transition: .2s;
     }
     .card:hover .titlebar .zone {
       opacity: 1;
@@ -159,16 +149,9 @@
       padding: 4px 8px;
       margin-top: 4px;
       transform: translateY(0);
-      transition:
-        opacity .2s ease,
-        transform .2s ease,
-        max-height .2s ease,
-        padding .2s ease,
-        margin-top .2s ease,
-        visibility 0s;
     }
 
-    /* Hover overlay */
+    /* Overlay */
     .overlay {
       position: absolute;
       inset: 0;
@@ -176,39 +159,57 @@
       flex-direction: column;
       justify-content: flex-end;
       padding: 12px;
-      gap: 10px;
-      pointer-events: none;
       background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55));
       opacity: 0;
       transition: opacity 0.25s ease;
       color: #fff;
+      pointer-events: none;
     }
     .card:hover .overlay { opacity: 1; }
-    .overlay .zone { font-size: 0.92rem; opacity: 0.95; }
-    .overlay .desc { font-size: 0.9rem; opacity: 0.95; max-width: 90ch; }
+
+    .overlay .desc { font-size: 0.9rem; max-width: 90ch; }
     .overlay a {
-      pointer-events: auto;
       align-self: flex-start;
       background: var(--brand);
       color: #fff;
-      text-decoration: none;
       padding: 8px 12px;
       border-radius: 8px;
+      text-decoration: none;
       font-size: 0.9rem;
-      transition: background 0.2s ease;
+      pointer-events: auto;
     }
     .overlay a:hover { background: var(--brand-dark); }
 
+    /* FOOTER (Updated UNDP Data Hub style) */
     footer {
-      background: var(--brand);
-      color: white;
-      text-align: center;
-      padding: 40px 16px 30px;
+      background: #ffffff;
+      padding: 40px 20px;
+      border-top: 2px solid #0072bc;
       margin-top: 40px;
     }
-    footer img { height: 100px; }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      width: 90px;
+      height: auto;
+    }
+
+    .footer-text {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #000;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="header-left">
@@ -237,13 +238,20 @@
     <div id="stateGrid"></div>
   </main>
 
+  <!-- NEW FOOTER -->
   <footer>
-    <img src="UNDP_logo_White.png" alt="UNDP Logo" />
-    <p>© 2025 United Nations Development Programme Nigeria Knowledge Hub</p>
+    <div class="footer-content">
+      <img src="UNDP_logo_White.png" alt="UNDP Logo" class="footer-logo" />
+      <div class="footer-text">
+        <div>United Nations</div>
+        <div>Development Programme</div>
+        <div>Nigeria</div>
+        <div style="margin-top: 12px;">Knowledge Hub</div>
+      </div>
+    </div>
   </footer>
 
   <script>
-    // --- State data ---
     const states = [
       ["Abia","south-east"], ["Adamawa","north-east"], ["Akwa Ibom","south-south"], ["Anambra","south-east"],
       ["Bauchi","north-east"], ["Bayelsa","south-south"], ["Benue","north-central"], ["Borno","north-east"],
@@ -256,49 +264,51 @@
       ["Rivers","south-south"], ["Sokoto","north-west"], ["Taraba","north-east"], ["Yobe","north-east"], ["Zamfara","north-west"]
     ];
 
-    // --- Descriptions map (slug -> short text) ---
     const DESC = {
-      abia: "Home of Enterprise and Innovation",
-      adamawa: "Land of Beauty, Hills, and Harmony",
-      akwaibom: "Nigeria’s Rising Coastal Power",
-      anambra: "Where Commerce Meets Ingenuity",
-      bauchi: "Gateway to Adventure and Nature",
-      bayelsa: "Heart of Nigeria’s Blue Economy",
-      benue: "Proudly the Nation’s Food Basket",
-      borno: "Resilience, Heritage, and Hope",
-      crossriver: "Africa’s Green Paradise",
-      delta: "Energy, Diversity, and Progress",
-      ebonyi: "The Salt of the Nation",
-      edo: "Cradle of Culture and Creativity",
-      ekiti: "Land of Honor and Learning",
-      enugu: "Coal City of Opportunities",
-      fct: "The Nation’s Capital of Unity",
-      gombe: "Jewel of the Savannah",
-      imo: "Heartland of Industry and Talent",
-      jigawa: "Growing with Purpose",
-      kaduna: "Center of Learning and Enterprise",
-      kano: "Commerce Capital of the North",
-      katsina: "Strength in Agriculture and Tradition",
-      kebbi: "Land of Rice and Rich Heritage",
-      kogi: "Confluence of Opportunities",
-      kwara: "State of Harmony and Ideas",
-      lagos: "Where Nigeria Thrives",
-      nasarawa: "Home of Minerals and New Horizons",
-      niger: "Powering Agriculture and Energy",
-      ogun: "Industrial Heart of the Southwest",
-      ondo: "Cocoa, Coastlines, and Growth",
-      osun: "Soul of Yoruba Culture",
-      oyo: "Land of Knowledge and Heritage",
-      plateau: "Home of Peace and Cool Beauty",
-      rivers: "Energy Hub of the Nation",
-      sokoto: "Seat of the Caliphate, Center of Wisdom",
-      taraba: "Nature’s Gift to Nigeria",
-      yobe: "Emerging Strength of the Sahel",
-      zamfara: "Land of Gold and Promise"
+      abia:"Home of Enterprise and Innovation",
+      adamawa:"Land of Beauty, Hills, and Harmony",
+      akwaibom:"Nigeria’s Rising Coastal Power",
+      anambra:"Where Commerce Meets Ingenuity",
+      bauchi:"Gateway to Adventure and Nature",
+      bayelsa:"Heart of Nigeria’s Blue Economy",
+      benue:"Proudly the Nation’s Food Basket",
+      borno:"Resilience, Heritage, and Hope",
+      crossriver:"Africa’s Green Paradise",
+      delta:"Energy, Diversity, and Progress",
+      ebonyi:"The Salt of the Nation",
+      edo:"Cradle of Culture and Creativity",
+      ekiti:"Land of Honor and Learning",
+      enugu:"Coal City of Opportunities",
+      fct:"The Nation’s Capital of Unity",
+      gombe:"Jewel of the Savannah",
+      imo:"Heartland of Industry and Talent",
+      jigawa:"Growing with Purpose",
+      kaduna:"Center of Learning and Enterprise",
+      kano:"Commerce Capital of the North",
+      katsina:"Strength in Agriculture and Tradition",
+      kebbi:"Land of Rice and Rich Heritage",
+      kogi:"Confluence of Opportunities",
+      kwara:"State of Harmony and Ideas",
+      lagos:"Where Nigeria Thrives",
+      nasarawa:"Home of Minerals and New Horizons",
+      niger:"Powering Agriculture and Energy",
+      ogun:"Industrial Heart of the Southwest",
+      ondo:"Cocoa, Coastlines, and Growth",
+      osun:"Soul of Yoruba Culture",
+      oyo:"Land of Knowledge and Heritage",
+      plateau:"Home of Peace and Cool Beauty",
+      rivers:"Energy Hub of the Nation",
+      sokoto:"Seat of the Caliphate, Center of Wisdom",
+      taraba:"Nature’s Gift to Nigeria",
+      yobe:"Emerging Strength of the Sahel",
+      zamfara:"Land of Gold and Promise"
     };
 
-    function slugify(n){ return n.toLowerCase().replace(/\s+/g, ''); }
-    function getDesc(name, z){
+    function slugify(n) {
+      return n.toLowerCase().replace(/\s+/g, '');
+    }
+
+    function getDesc(name, z) {
       const key = slugify(name);
       return DESC[key] || `${name} — key indicators, economy & people. Zone: ${z.replace('-', ' ')}`;
     }
@@ -311,6 +321,7 @@
       const query = search.value.toLowerCase();
       const zoneVal = zone.value;
       grid.innerHTML = '';
+
       states
         .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))
         .forEach(([name, z]) => {
@@ -334,7 +345,9 @@
 
     search.addEventListener('input', render);
     zone.addEventListener('change', render);
+
     render();
   </script>
+
 </body>
 </html>
