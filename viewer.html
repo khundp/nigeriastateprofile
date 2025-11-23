@@ -12,122 +12,121 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
-      -webkit-overflow-scrolling: touch;
+      min-height: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f2f4f8;
+      background: #f5f7fa;
+      color: #222;
     }
 
-    /* Back button */
-    #back-button {
-      position: fixed;
-      top: 16px;
-      left: 12px;
-      background-color: #0072bc;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 5px;
-      font-size: 14px;
-      text-decoration: none;
-      z-index: 9999;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s;
-    }
-
-    #back-button:hover {
-      background-color: #005a94;
-    }
-
-    /* Viewer wrapper */
-    #viewer-wrapper {
-      position: fixed;
-      inset: 0;
-      padding: 60px 10px 50px; /* leave space for back & controls */
+    body {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: auto;
+      flex-direction: column;
     }
 
-    canvas {
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
       background: #ffffff;
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-      margin: auto;
-    }
-
-    /* Bottom controls */
-    #controls {
-      position: fixed;
-      left: 50%;
-      bottom: 8px;
-      transform: translateX(-50%);
+      border-bottom: 1px solid #d4dbe6;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.7);
+      gap: 12px;
+    }
+
+    header a#back-button {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #0072bc;
       color: #fff;
-      padding: 6px 10px;
-      border-radius: 999px;
       font-size: 13px;
-      z-index: 9999;
-    }
-
-    #controls button {
-      border: none;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #f0f4ff;
-      color: #003366;
-      font-size: 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    #controls button:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    #controls span {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
       white-space: nowrap;
     }
 
-    /* Message when no state or no image */
-    #message {
-      position: fixed;
-      inset: 0;
+    header a#back-button:hover {
+      background: #005a94;
+    }
+
+    header .title-block {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      color: #333;
-      padding: 20px;
-      text-align: center;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    header .state-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    header .state-sub {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    main {
+      flex: 1;
+      padding: 16px 10px 32px;
+    }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .page-canvas-wrapper {
+      margin: 0 auto 16px;
+      background: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;      /* responsive width */
+      height: auto;     /* keep aspect ratio */
+      background: #ffffff;
+    }
+
+    #message {
+      max-width: 700px;
+      margin: 40px auto 0;
+      padding: 16px 18px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    code {
+      background: #f1f3f6;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 0.85em;
     }
   </style>
 </head>
 <body>
-  <a id="back-button" href="https://khundp.github.io/nigeriastateprofile/">&larr; Back</a>
+  <header>
+    <a id="back-button" href="https://khundp.github.io/nigeriastateprofile/">&larr; Back</a>
+    <div class="title-block">
+      <div class="state-name" id="stateTitle">Loading…</div>
+      <div class="state-sub">Nigeria State Profile · Read-only web view</div>
+    </div>
+  </header>
 
-  <div id="viewer-wrapper">
-    <canvas id="pageCanvas"></canvas>
-  </div>
-
-  <div id="controls" style="display:none;">
-    <button id="prevPage">&larr; Prev</button>
-    <span id="pageLabel">Page 1</span>
-    <button id="nextPage">Next &rarr;</button>
-  </div>
-
-  <div id="message" style="display:none;"></div>
+  <main>
+    <div id="message" style="display:none;"></div>
+    <div class="page-container" id="pageContainer"></div>
+  </main>
 
   <script>
-    // Disable right-click everywhere (no context menu / save image as)
+    // Disable right-click (no context menu / save image as)
     document.addEventListener("contextmenu", function (e) {
       e.preventDefault();
     });
@@ -135,91 +134,122 @@
     const params = new URLSearchParams(window.location.search);
     const stateSlug = (params.get("state") || "").toLowerCase();
 
-    const canvas = document.getElementById("pageCanvas");
-    const ctx = canvas.getContext("2d");
-    const controls = document.getElementById("controls");
-    const prevBtn = document.getElementById("prevPage");
-    const nextBtn = document.getElementById("nextPage");
-    const pageLabel = document.getElementById("pageLabel");
+    const stateTitleEl = document.getElementById("stateTitle");
     const messageEl = document.getElementById("message");
+    const pageContainer = document.getElementById("pageContainer");
 
-    let currentPage = 1;
-    let reachedEnd = false; // set to true once we detect no more pages
+    // Slug -> pretty name for header
+    const STATE_NAMES = {
+      abia: "Abia",
+      adamawa: "Adamawa",
+      akwaibom: "Akwa Ibom",
+      anambra: "Anambra",
+      bauchi: "Bauchi",
+      bayelsa: "Bayelsa",
+      benue: "Benue",
+      borno: "Borno",
+      crossriver: "Cross River",
+      delta: "Delta",
+      ebonyi: "Ebonyi",
+      edo: "Edo",
+      ekiti: "Ekiti",
+      enugu: "Enugu",
+      fct: "Federal Capital Territory (FCT)",
+      gombe: "Gombe",
+      imo: "Imo",
+      jigawa: "Jigawa",
+      kaduna: "Kaduna",
+      kano: "Kano",
+      katsina: "Katsina",
+      kebbi: "Kebbi",
+      kogi: "Kogi",
+      kwara: "Kwara",
+      lagos: "Lagos",
+      nasarawa: "Nasarawa",
+      niger: "Niger",
+      ogun: "Ogun",
+      ondo: "Ondo",
+      osun: "Osun",
+      oyo: "Oyo",
+      plateau: "Plateau",
+      rivers: "Rivers",
+      sokoto: "Sokoto",
+      taraba: "Taraba",
+      yobe: "Yobe",
+      zamfara: "Zamfara"
+    };
+
+    // Set header title
+    if (!stateSlug || !STATE_NAMES[stateSlug]) {
+      stateTitleEl.textContent = "Unknown state";
+    } else {
+      stateTitleEl.textContent = STATE_NAMES[stateSlug];
+    }
 
     if (!stateSlug) {
-      showMessage("No state specified.<br>Use <code>?state=abia</code> in the URL.");
+      showMessage(
+        'No state specified. Use a URL like <code>viewer.html?state=abia</code>.'
+      );
     } else {
-      // Start by loading page 1
-      loadPage(1);
+      loadAllPages(stateSlug);
     }
 
-    function showMessage(msg) {
-      messageEl.innerHTML = msg;
-      messageEl.style.display = "flex";
-      controls.style.display = "none";
-      canvas.style.display = "none";
+    function showMessage(html) {
+      messageEl.innerHTML = html;
+      messageEl.style.display = "block";
     }
 
-    function hideMessage() {
-      messageEl.style.display = "none";
-      canvas.style.display = "block";
-    }
-
+    // Build path: images/states/<slug>/<slug>_page-0001.jpg
     function getImagePath(slug, pageNumber) {
-      // Matches: images/states/akwaibom/akwaibom_page-0001.jpg
       const page = String(pageNumber).padStart(4, "0");
       return `images/states/${slug}/${slug}_page-${page}.jpg`;
     }
 
-    function loadPage(pageNumber) {
-      if (!stateSlug) return;
+    // Load all pages sequentially: 0001, 0002, ... until a page fails
+    function loadAllPages(slug) {
+      let pageNum = 1;
+      let loadedAny = false;
 
-      hideMessage();
+      function loadNext() {
+        const img = new Image();
+        const src = getImagePath(slug, pageNum);
+        img.src = src;
 
-      const img = new Image();
-      img.src = getImagePath(stateSlug, pageNumber);
+        img.onload = function () {
+          loadedAny = true;
 
-      img.onload = function () {
-        reachedEnd = false;
-        currentPage = pageNumber;
+          // Create wrapper + canvas for this "page"
+          const wrapper = document.createElement("div");
+          wrapper.className = "page-canvas-wrapper";
 
-        // Draw at natural resolution; CSS will scale to fit.
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-        pageLabel.textContent = `Page ${currentPage}`;
-        controls.style.display = "flex";
-        prevBtn.disabled = currentPage <= 1;
-        nextBtn.disabled = false;
-      };
+          canvas.width = img.width;
+          canvas.height = img.height;
 
-      img.onerror = function () {
-        if (pageNumber === 1 && currentPage === 1) {
-          showMessage(
-            `No page images found for this state:<br><strong>${stateSlug}</strong><br><br>` +
-            `Expected at: <code>${getImagePath(stateSlug, 1)}</code>`
-          );
-        } else {
-          // No more pages beyond current one
-          reachedEnd = true;
-          nextBtn.disabled = true;
-        }
-      };
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          wrapper.appendChild(canvas);
+          pageContainer.appendChild(wrapper);
+
+          pageNum++;
+          loadNext(); // try next page
+        };
+
+        img.onerror = function () {
+          if (!loadedAny && pageNum === 1) {
+            showMessage(
+              'No page images were found for this state.<br><br>' +
+              'Expected at least: <code>' + src + '</code>'
+            );
+          }
+          // Stop loading when image not found
+        };
+      }
+
+      loadNext();
     }
-
-    prevBtn.addEventListener("click", function () {
-      if (currentPage > 1) {
-        loadPage(currentPage - 1);
-      }
-    });
-
-    nextBtn.addEventListener("click", function () {
-      if (!reachedEnd) {
-        loadPage(currentPage + 1);
-      }
-    });
   </script>
 </body>
 </html>
