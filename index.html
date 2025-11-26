@@ -282,6 +282,14 @@
       ["Rivers","south-south"], ["Sokoto","north-west"], ["Taraba","north-east"], ["Yobe","north-east"], ["Zamfara","north-west"]
     ];
 
+
+
+    
+    const activeStates = ["Abia"];                                               // only Abia is active for now
+
+
+
+    
     const DESC = {
       abia:"Home of Enterprise and Innovation",
       adamawa:"Land of Beauty, Hills, and Harmony",
@@ -341,7 +349,24 @@
       grid.innerHTML = '';
 
       states
-        .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))
+
+
+             
+                                               // .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))                 // reactivate later by removing this and the block bottom and active this line .
+
+
+
+        
+
+        .filter(([name, z]) =>
+          activeStates.includes(name) &&                     // ✅ only active states
+          (zoneVal === 'all' || z === zoneVal) &&           // existing zone filter
+          name.toLowerCase().includes(query)                // existing search filter
+        )
+
+
+
+        
         .forEach(([name, z]) => {
           const slug = slugify(name);
           const card = document.createElement('div');
