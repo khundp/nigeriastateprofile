@@ -285,7 +285,7 @@
 
 
     
-    const activeStates = ["Abia"];                                               // only Abia is active for now
+    // const activeStates = ["Abia"];                                               // only Abia is active for now
 
 
 
@@ -352,18 +352,13 @@
 
 
              
-                                               // .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))                 // reactivate later by removing this and the block bottom and active this line .
+                                                .filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))                 // reactivate later by removing this and the block bottom and active this line .
 
 
 
         
 
-        .filter(([name, z]) =>
-          activeStates.includes(name) &&                     // ✅ only active states
-          (zoneVal === 'all' || z === zoneVal) &&           // existing zone filter
-          name.toLowerCase().includes(query)                // existing search filter
-        )
-
+      
 
 
         
