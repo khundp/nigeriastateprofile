@@ -285,6 +285,7 @@
 
 
     
+   const activeStates = ["Abia"];                                               // only Abia is active for now
 
 
 
@@ -350,7 +351,21 @@
       states
 
 
-.filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))     
+             
+                                                //.filter(([name, z]) => (zoneVal === 'all' || z === zoneVal) && name.toLowerCase().includes(query))                 // reactivate later by removing the and the block bottom and active this line .
+
+
+
+        
+                          .filter(([name, z]) =>
+                          activeStates.includes(name) &&                     // ✅ only active states
+                          (zoneVal === 'all' || z === zoneVal) &&           // existing zone filter
+                          name.toLowerCase().includes(query)                // existing search filter
+                            )
+
+      
+
+
         
         .forEach(([name, z]) => {
           const slug = slugify(name);
