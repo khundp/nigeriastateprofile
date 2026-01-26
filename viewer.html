@@ -57,7 +57,7 @@
     main {
       width: 100%;
       margin: 0;
-      padding: 0 0 0 4px;
+      padding: 0 0 0 4px;;
     }
 
     .page-wrapper {
@@ -85,7 +85,6 @@
       border: 1px solid #ffeeba;
       color: #856404;
       border-radius: 8px;
-      display: none;
     }
 
   </style>
@@ -102,7 +101,7 @@
   </header>
 
   <main>
-    <div id="message"></div>
+    <div id="message" style="display:none;"></div>
     <div id="pages"></div>
   </main>
 
@@ -112,9 +111,6 @@
 
     const params = new URLSearchParams(window.location.search);
     const slug = (params.get("state") || "").toLowerCase();
-
-    // Only these state profiles are active for now:
-    const ACTIVE_STATES = ["abia"]; // 👈 Add more slugs here later, e.g. "adamawa"
 
     const TITLE_MAP = {
       abia:"Abia", adamawa:"Adamawa", akwaibom:"Akwa Ibom", anambra:"Anambra",
@@ -129,17 +125,10 @@
     };
 
     const stateTitle = document.getElementById("stateTitle");
+    stateTitle.textContent = TITLE_MAP[slug] || slug.toUpperCase();
+
     const pagesDiv = document.getElementById("pages");
     const message = document.getElementById("message");
-
-    // Set the title based on slug and active status
-    if (!slug) {
-      stateTitle.textContent = "No state selected";
-    } else if (!ACTIVE_STATES.includes(slug)) {
-      stateTitle.textContent = "Profile not available";
-    } else {
-      stateTitle.textContent = TITLE_MAP[slug] || slug.toUpperCase();
-    }
 
     function getImagePath(slug, num) {
       return `images/states/${slug}/${slug}_page-${String(num).padStart(4,"0")}.jpg`;
@@ -168,8 +157,8 @@
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
 
-          canvas.width = img.width;
-          canvas.height = img.height;
+          canvas.width = img.width; 
+          canvas.height = img.height; 
           ctx.drawImage(img, 0, 0);
 
           wrapper.appendChild(canvas);
@@ -181,23 +170,17 @@
 
         img.onerror = () => {
           if (!found && page === 1) {
-            showMessage(
-              `No images found for this profile.<br><br>Expected: <code>${src}</code>`
-            );
+            showMessage(`No images found for this profile.<br><br>Expected: <code>${src}</code>`);
           }
         };
       }
-
       loadNext();
     }
 
-    // Control loading based on slug + active state
-    if (!slug) {
-      showMessage("No state selected.");
-    } else if (!ACTIVE_STATES.includes(slug)) {
-      showMessage("This state profile is not available yet. Please go back and select an active state.");
-    } else {
+    if (slug) {
       loadAllPages();
+    } else {
+      showMessage("No state selected.");
     }
   </script>
 
